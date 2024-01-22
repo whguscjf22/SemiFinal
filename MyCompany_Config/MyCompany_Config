@@ -1,0 +1,49 @@
+
+[Java Configuration]
+
+1. xml 제거 및 프로젝트 xml 인식 false 적용
+	- pom.xml
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>3.2.0</version>
+			<configuration>
+			<failOnMissingWebXml>false</failOnMissingWebXml>
+			</configuration>
+		</plugin>
+		
+2. 본래 xml의 내용을 Java Configuration으로 변경
+	- RootConfig
+	- ServletConfig implements WebMvcConfigurer
+		// void addResourceHandlers(ResourceHandlerRegistry registry)
+		@Override
+		public void addResourceHandlers(ResourceHandlerRegistry registry) {
+			//
+		}
+		
+		// void configureViewResolvers(ViewResolverRegistry registry)
+		@Override
+		public void configureViewResolvers(ViewResolverRegistry registry) {
+			//
+		}
+	
+	- WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer
+		@Override
+		protected Class<?>[] getRootConfigClasses() {
+			return null;
+		}
+
+		@Override
+		protected Class<?>[] getServletConfigClasses() {
+			return null;
+		}
+
+		@Override
+		protected String[] getServletMappings() {
+			return null;
+		}
+		
+		@Override
+		protected Filter[] getServletFilters() {
+			return null;
+		}

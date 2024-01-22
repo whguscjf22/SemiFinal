@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.company.mapper.DeptMapper">
+ 	<select id="getAllDeptList" resultType="com.company.dto.Dept">
+ 		SELECT deptno, dname, loc FROM dept
+ 	</select>
+ 	
+ 	<select id="getDeptByDeptno" 
+ 			parameterType="_int"
+ 			resultType="com.company.dto.Dept">
+ 		SELECT deptno, dname, loc 
+ 		FROM dept
+ 		WHERE deptno = #{deptno}
+ 	</select>
+ 	
+ 	<insert id="insertDept"
+ 			parameterType="com.company.dto.Dept">
+ 		INSERT INTO dept 
+ 		VALUES(#{deptno}, #{dname}, #{loc})
+ 	</insert>
+ 	
+ 	<update id="updateDnameAndLoc"
+ 			parameterType="com.company.dto.Dept">
+ 		UPDATE dept
+ 		SET dname = #{dname}, 
+ 			loc = #{loc}
+ 		WHERE deptno = #{deptno}
+ 	</update>
+ 	
+ 	<delete id="deleteDeptByDeptno"
+ 			parameterType="_int"> <!-- parameterType="com.company.dto.Dept" 이것도 가능 -->
+ 		DELETE FROM dept WHERE deptno = #{deptno}
+ 	</delete>
+ 	
+ 	<!-- getDynamicDeptno -->
+ 	<select id="getDynamicDeptno"
+ 			parameterType="hashmap"
+ 			resultType="com.company.dto.Dept">
+ 		SELECT deptno, dname, loc
+ 		FROM dept
+ 		<if test="deptno != null">
+ 			WHERE deptno = #{deptno}
+ 		</if>
+ 	</select>
+ 	
+ 	<!-- getDynamicChoose -->
+ 	<select id="getDynamicChoose"
+ 			parameterType="hashmap"
+ 			resultType="com.company.dto.Dept">
+ 		SELECT deptno, dname, loc 
+ 		FROM dept 
+ 		<choose>
+ 			<when test="dname != null">
+ 				WHERE dname = #{dname} 
+ 			</when>
+ 			<when test="loc != null">
+ 				WHERE loc = #{loc}
+ 			</when>
+ 		</choose>
+ 	</select>
+ 	
+ 	<!-- getDynamicWhereTrim -->
+ 	<select id="getDynamicWhereTrim"
+ 			parameterType="hashmap"
+ 			resultType="com.company.dto.Dept">
+ 		SELECT deptno, dname, loc 
+ 		FROM dept 
+ 		<trim prefix="WHERE" prefixOverrides="OR |AND">
+ 			<if test="dname != null">
+ 				dname = #{dname}
+ 			</if>
+ 			<if test="loc != null">
+ 				OR loc = #{loc}
+ 			</if>
+ 		</trim>
+ 	</select>
+ 	
+ <!-- 	<update id="updateDnameAndLoc"
+ 			parameterType="hashmap">
+ 		UPDATE dept
+ 		<set>
+ 			<if test="dname != null">
+ 				dname = #{dname}
+ 			</if>
+ 			<if test="loc != null">
+ 				, loc = #{loc}
+ 			</if>
+ 		</set>
+ 		WHERE deptno = #{deptno}
+ 	</update> -->
+ 	<update id="updateDynamicSet"
+ 			parameterType="hashmap">
+ 		UPDATE dept
+ 		<!-- <set>
+ 			<if test="dname != null">
+ 				dname = #{dname}
+ 			</if>
+ 			<if test="loc != null">
+ 				, loc = #{loc}
+ 			</if>
+ 		</set> -->
+ 		<trim prefix="SET" prefixOverrides=",">
+ 			<if test="dname != null">
+ 				dname = #{dname}
+ 			</if>
+ 			<if test="loc != null">
+ 				, loc = #{loc}
+ 			</if>
+ 		</trim>
+ 		WHERE deptno = #{deptno}
+ 	</update>
+ 	
+ 	<!-- getDynamicForeachDeptno -->
+	<!-- SELECT * FROM dept WHERE deptno IN (10, 20, 30) -->
+ 	<select id="getDynamicForeachDeptno"
+ 			parameterType="list"
+ 			resultType="com.company.dto.Dept">
+ 		SELECT 
+ 			deptno,
+		    dname,
+		    loc
+ 		FROM dept
+ 		<where>
+ 			<foreach item="deptno" collection="list"
+ 						open="deptno IN (" separator="," close=")">
+ 						#{deptno}
+ 			</foreach>
+ 		</where>	
+ 	</select>
+ 	
+	<!-- insertDynamicForeachDeptList -->
+	<!-- INSERT INTO dept (deptno, dname, loc) VALUES (deptno, dname, loc), (deptno, dname, loc) -->
+	<insert id="insertDynamicForeachDeptList"
+			parameterType="list">
+		INSERT INTO dept(deptno, dname, loc) VALUES
+		<foreach collection="list" item="dept" separator=",">
+			(
+				#{dept.deptno}, 
+				#{dept.dname}, 
+				#{dept.loc}
+			)
+		</foreach>
+					
+	</insert>
+	
+		 
+ 	
+ 	
+ </mapper>

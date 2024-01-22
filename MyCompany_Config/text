@@ -1,0 +1,246 @@
+
+[/dept-list, /dept/부서번호]
+1.
+http://localhost:8080/main
+-> 
+*
+controller -> service -> mapper -> xml
+==> main.jsp 출력
+
+2.
+http://localhost:8080/dept/30
+->
+*
+@PathVariable
+controller -> service -> mapper -> xml
+==> detail.jsp 출력
+
+3. insert
+부서 생성 클릭 -> 등록 register.jsp
+->
+deptno, dname, loc 입력 -> 생성 클릭
+-> 
+POST
+http://localhost:8081/dept
+->
+deptno, dname, loc => dept 객체생성 => service > mapper > db
+->
+main.jsp 로 이동
+
+4. update
+[modify : contorller]
+	// /modify/dept/10
+	@RequestMapping(value = "/modify/dept/{deptno}", method = RequestMethod.GET)
+	public String updateDeptForm(@PathVariable int deptno, Model model) throws Exception {
+		
+		Dept dept = service.getDeptByDeptno(deptno);
+		model.addAttribute("dept", dept);
+		
+		return "updateDept";
+	}
+
+[update]
+	http://localhost:8080/modify/dept/11
+  11번 부서 정보 확인
+  ->
+  새로운 부서명/부서위치 입력 => 수정 버튼 클릭 => 
+  /dept/부서번호 POST controller 메소드 생성 => Update 기능!!
+  
+5. DELETE
+HTTP MEthod
+-GET : read
+-POST : insert
+-PUT : update
+-DELETE : delete
+
+url : deleteDept.do >>> /dept/10 >> POST 방식
+	-insert :/dept/10 => POST
+	-delete :/dept/10 => POST
+	
+[흐름]
+삭제 버튼 클릭 -> deleteDept() js 함수 
+-> form-DOM 객체로 가져오기
+-> input 태그 생성 - hidden + method : POST
+-> action :/dept/부서번호 -> submit
+-> deptno - 확인 -> 존재 삭제 
+
+
+==============================================================
+
+
+1. DTO
+	@NoArgsConstructor
+	@Getter
+	@Setter
+	@ToString
+	public class AttachmentFile {
+		private long attachmentFileNo; 				// 파일 번호
+		private String filePath;					// 파일 저장 경로(base경로 + 새로운 폴더 경로)
+		private String attachmentFileName;			// 파일명(UUID + 원본파일명)
+		private String attachmentOriginalFileName;	// 원본 파일명
+		private Timestamp registeredDate;			// 파일 등록 일자
+		private Long attachmentFileSize; 			// 파일 크기
+		private int deptno; 						// 부서 번호
+		
+		@Builder
+		public AttachmentFile(long attachmentFileNo, String filePath, String attachmentFileName,
+				String attachmentOriginalFileName, Timestamp registeredDate, Long attachmentFileSize, int deptno) {
+			this.attachmentFileNo = attachmentFileNo;
+			this.filePath = filePath;
+			this.attachmentFileName = attachmentFileName;
+			this.attachmentOriginalFileName = attachmentOriginalFileName;
+			this.registeredDate = registeredDate;
+			this.attachmentFileSize = attachmentFileSize;
+			this.deptno = deptno;
+		}
+	}
+
+2. DB 구축
+	CREATE TABLE `scott`.`attachment_file` (
+	  `attachment_file_no` BIGINT NOT NULL AUTO_INCREMENT,
+	  `file_path` VARCHAR(255) NULL,
+	  `attachment_file_name` VARCHAR(255) NULL,
+	  `attachment_original_file_name` VARCHAR(255) NULL,
+	  `registered_date` TIMESTAMP NULL,
+	  `attachment_file_size` BIGINT NULL,
+	  `deptno` INT NULL,
+	  PRIMARY KEY (`attachment_file_no`),
+	  INDEX `attachment_file_deptno_fk_idx` (`deptno` ASC) VISIBLE,
+	  CONSTRAINT `attachment_file_deptno_fk`
+	    FOREIGN KEY (`deptno`)
+	    REFERENCES `scott`.`dept` (`DEPTNO`)
+	    ON DELETE SET NULL
+	    ON UPDATE NO ACTION)
+	ENGINE = InnoDB
+	DEFAULT CHARACTER SET = utf8mb4;
+
+3. 실제 서비스 개발
+- Front : registerDept.jsp, deptDetilal.jsp 내용 추가 후 개발
+1) register : registerDept.jsp의 loc <tr/> 이후 해당 내용 추가
+   	    <tr>
+	        <td width="150" height="20">
+	            <p align="center"><b><span style="font-size:12pt;">부서파일</span></b></p>
+	        </td>
+	        <td width="450" height="20" align="center">
+	        	<b>
+	        		<span style="font-size:12pt;">
+	        			<!-- input 박스 -->
+	        			<input type="file" name="file" size="30">
+	        		</span>
+	        	</b>
+	        </td>
+	    </tr>
+2) detail : deptDetail.jsp의 loc <tr/> 이후 해당 내용 추가
+   	    <tr>
+	        <td width="150" height="20">
+	            <p align="center"><b><span style="font-size:12pt;">부서파일</span></b></p>
+	        </td>
+	        <td width="450" height="20" align="center">
+	        	<b>
+	        		<span style="font-size:12pt;">
+	        			<a href="http://localhost:8080/download/file/${file.attachmentFileNo}">${file.attachmentOriginalFileName}</a>
+	        		</span>
+	        	</b>
+	        </td>
+	    </tr>
+
+
+- Back : service만 제공(controller, mapper(java/xml) 등 직접 개발
+	@Service
+	public class AttachmentFileService {
+		
+		@Autowired
+		AttachmentFileMapper attachmentFileMapper;
+		
+		// 객체
+		public AttachmentFile getAttachmentFileByFileNo(int fileNo) throws SQLException, Exception { 
+			AttachmentFile attachmentFile = null;
+			
+			return attachmentFile;
+		}
+		
+		// insert - 
+		public boolean insertAttachmentFile(MultipartFile file, int deptno) throws SQLException, Exception {
+			boolean result = false;
+			
+			if(file == null) {
+				throw new Exception("파일 전달 오류 발생");
+			}
+			
+			/* 파일을 저장하는 의미
+			   1. DB 파일 정보 저장 - attFile 객체 생성 -> mapper -> db 저장
+			   2. server에 파일이 실제로 저장  - multipartFile transferTo()
+			   3. 파일 저장이 성공 - true / 아니면 - false
+			 */
+			
+			return result;
+		}
+		
+		// 부서번호로 파일 출력
+		public AttachmentFile getAttachmentFileByDeptno(int deptno) {
+			AttachmentFile attachmentFile = null;
+			
+			return attachmentFile;
+		}
+	}
+
+=========================================================================================
+
+[MyBatis Dynamic SQL]
+	* https://mybatis.org/mybatis-3/ko/dynamic-sql.html
+	- 전달되는 파라미터에 따른 동적인 SQL Query를 생성하는 문법
+
+- <if> : test 속성을 만족하면 해당 쿼리 추가(단일 조건)
+
+*** 주의
+"test" 속성의 값에는 '<' 문자가 포함되면 안됨.
+
+	- CDATA
+	CDATA 태그는 XML 문서 안에 특수 문자를 포함시킬 때 사용
+	XML Parsing을 Text로 바꿔줌.
+
+	기호			대체식	예제
+	<			lt		<if test="parameter1 lt 0">
+	>			gt		<if test="parameter1 gt 0">
+	<=, =<		lte		<if test="parameter1 lte 0">
+	>=, =>		gte		<if test="parameter1 gte 0">
+
+	예제)
+	- 단일 처리
+	<select id="getUser" resultType="UserVO">
+		select * from user
+		<if test="id != null">
+			where id  <![CDATA[<]]> 3;
+		</if>
+	</select>
+
+	- 다중 처리 :
+		하나의 쿼리에 여러 개의 부등호 사용, 부등호 상관없이 작업을 진행해야 할 때
+	<select id="getUserList" resultMap="UserVO">
+		<![CDATA[
+		select *
+		from user
+		where id > 3
+		]]>
+	</select>
+	
+- <choose>, <when>, <otherwise> : 다중 조건
+
+- <where>, <trim> : 조건에 따라 where을 추가 할 때 사용하는 태그
+	- trim
+		prefixOverrides: 하위 엘리먼트 처리 후 내용의 맨 앞에 해당 문자열이 있다면 삭제
+		suffixOverrides: 하위 엘리먼트 처리 후 내용의 맨 뒤에 해당 문자열이 있다면 삭제
+		prefix: 하위 엘리먼트 처리 후 내용이 있다면 가장 앞에 붙임  / 접두사
+		suffix: 하위 엘리먼트 처리 후 내용이 있다면 가장 뒤에 붙임 / 접미사
+		
+- <set> : update에서 null 여부에 따라 동적인 update 구문 생성 태그
+- <foreach> : 배열 타입의 parameter를 받을 때 사용하는 태그
+	collection : 값 목록을 가진 객체로 배열 또는 List
+	item : collection 내의 개별 값을 나타내는 변수 이름
+	open : 해당 블럭을 시작할 때 사용할 기호(주로 '(' )
+	close : 해당 블럭을 종료할 때 사용할 기호( 주로 ')' )
+	separator : 각 item을 구분할 분리자 기호( 주로 ',' )
+	
+	=========================================
+[Servers -> Context.xml]
+<Context allowCasualMultipartParsing="true" path="/">
