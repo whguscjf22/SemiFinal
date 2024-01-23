@@ -17,26 +17,26 @@ public class Board {
 	private Long boardId;
 	private String boardTitle;
 	private String boardContent;
-	private Timestamp createDate;
+	private Timestamp createdDate;
 	private Timestamp modifiedDate;
 	private String userId;
 	private Long fileId;
+	private String BoardName;
+	private String count;
 	
 	@Builder
-	public Board(Long boardId, String boardTitle, String boardContent, Timestamp createDate, Timestamp modifiedDate,
+	public Board(Long boardId, String boardTitle, String boardContent, Timestamp createdDate, Timestamp modifiedDate,
 			String userId, Long fileId, String boardName, String count) {
 		super();
 		this.boardId = boardId;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
-		this.createDate = createDate;
+		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
 		this.userId = userId;
 		this.fileId = fileId;
 		BoardName = boardName;
 		this.count = count;
 	}
-	private String BoardName;
-	private String count;
 
 }
