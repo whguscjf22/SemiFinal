@@ -2,12 +2,13 @@
 <!DOCTYPE mapper 
 PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.board.mapper.NoticeMapper">
-	<select id="testNotice"
+<mapper namespace="com.board.mapper.BoardMapper">
+<!-- 	<select id="testNotice"
 			resultType="com.board.dto.User">
 		SELECT user_id as userId, user_name as userName, password, grade
 		FROM user
 		WHERE user_id = 1
-	</select>
+	</select> -->
+	
 
 </mapper>
