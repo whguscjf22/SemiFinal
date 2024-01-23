@@ -1,4 +1,4 @@
-package com.board.common.interceptor;
+package com.board.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

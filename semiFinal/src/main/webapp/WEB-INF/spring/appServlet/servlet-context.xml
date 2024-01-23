@@ -35,7 +35,7 @@
 			 				
 			<!-- 인터셉터 bean 등록할 class 지정 -->
 			<!-- url 확인 -->
-			<beans:bean	id="sessionIntesrceptor" class="com.board.common.interceptor.SessionInterceptor"/>	
+			<beans:bean	id="sessionIntesrceptor" class="com.board.interceptor.SessionInterceptor"/>	
 		</interceptor>
 	</interceptors>
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

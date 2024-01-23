@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.board.dto.User;
-import com.board.mapper.NoticeMapper;
+import com.board.mapper.BoardMapper;
 
 @Service
-public class NoticeService {
+public class BoardService {
 
 	@Autowired
-	private NoticeMapper mapper;
+	private BoardMapper mapper;
 
 	public User testNotice() {
 		

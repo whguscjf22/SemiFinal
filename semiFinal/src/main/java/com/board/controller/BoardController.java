@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.board.dto.User;
-import com.board.service.NoticeService;
+import com.board.service.BoardService;
 
 @Controller
-public class NoticeController {
+public class BoardController {
 	
 	@Autowired
-	private NoticeService service;
+	private BoardService service;
 	
 	
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
