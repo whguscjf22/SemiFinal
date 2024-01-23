@@ -17,16 +17,16 @@ public class MainController {
 	@Autowired
 	private BoardService boardService;
 	
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String main(Model model) {
-		
-		
-		//1) List<Board> getAllBoardList
-		List<Board> boardList = boardService.getAllBoardList();
-		//System.out.println(boardList);
-		
-		model.addAttribute("boardList",boardList);
-		
-		return "main";
-	}
+//	@RequestMapping(value = "/main", method = RequestMethod.GET)
+//	public String main(Model model) {
+//		
+//		
+//		//1) List<Board> getAllBoardList
+//		List<Board> boardList = boardService.getAllBoardList();
+//		//System.out.println(boardList);
+//		
+//		model.addAttribute("boardList",boardList);
+//		
+//		return "main";
+//	}
 }

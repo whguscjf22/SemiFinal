@@ -59,10 +59,10 @@ public class BoardController {
 		}
 	
 	// paging
-	// mainTest >> main 으로 변경해야함
-	@GetMapping("/mainTest")
+	@GetMapping("/main")
 	public String searchWithPage(PageRequestDTO pageRequest,
 									Model model, String searchKeyword) {
+		System.out.println(pageRequest);
 		
 		List<Board> boardList = boardService.getNoticeBySearchWithPage(pageRequest);
 		int totalCount = boardService.getTotalCount(pageRequest);
@@ -75,7 +75,7 @@ public class BoardController {
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pageInfo", pageResponse);
 		
-		return "mainTest";
+		return "main";
 		
 	}
 
