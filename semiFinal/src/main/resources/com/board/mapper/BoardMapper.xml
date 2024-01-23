@@ -3,41 +3,7 @@
 PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.board.mapper.BoardMapper">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	<!-- 더미 board 생성용 -->
 	<insert id="insertNotice" parameterType="com.board.dto.Board">
 			INSERT INTO board (
@@ -89,4 +55,61 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<select id="getAllBoardList"
+			resultType="com.board.dto.Board">
+		SELECT board_id as boardId, 
+				board_title as boardTitle,
+				board_content as boardContent,
+				created_date as createdDate,
+				modified_date as modifiedDate,
+				user_id as userId,
+				file_id as fileId,
+				board_name as BoardName,
+				count
+		FROM board_db.board
+	</select>
+
+	<select id="getBoardByBoardId" parameterType="long" resultType="com.board.dto.Board">
+ 		SELECT board_id as boardId, 
+				board_title as boardTitle,
+				board_content as boardContent,
+				created_date as createdDate,
+				modified_date as modifiedDate,
+				user_id as userId,
+				file_id as fileId,
+				board_name as BoardName,
+				count
+		FROM board_db.board 
+		WHERE board_id = #{boardId} 
+ 	</select>
+
+<!-- 	<select id="getBoardByBoardName" parameterType="string" resultType="com.board.dto.Board">
+ 		SELECT board_id as boardId, 
+				board_title as boardTitle,
+				board_content as boardContent,
+				created_date as createdDate,
+				modified_date as modifiedDate,
+				user_id as userId,
+				file_id as fileId,
+				board_name as BoardName,
+				count
+		FROM board_db.board 
+		WHERE board_name = #{boardName} 
+ 	</select> -->
+ 	
+	<insert id="insertBoard" parameterType="com.board.dto.Board">
+ 		INSERT INTO board_db.board (board_title,board_content,created_date,board_name)
+ 		VALUES(#{boardTitle}, #{boardContent}, now(), #{BoardName})
+ 	</insert>
+ 	
+ 	<update id="updateBoardBYBoardId" parameterType="com.board.dto.Board">
+ 		UPDATE board_db.board 
+ 		SET board_title = #{boardTitle}, board_content = #{boardContent}, modified_date = now()
+ 		WHERE board_name = #{boardName} AND board_id = #{boardId}
+ 	</update>
+ 	
+ 	<delete id="deleteBoardByBoardId" parameterType="long">
+ 		DELETE FROM board_db.board WHERE board_id = #{boardId}
+ 	</delete>
+ 	
 </mapper>
