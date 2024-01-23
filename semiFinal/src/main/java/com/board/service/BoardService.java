@@ -16,30 +16,46 @@ public class BoardService {
 	@Autowired
 	private BoardMapper boardMapper;
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 더미데이터 생성용
 	public void insertNotice(Board board) {
 
 		boardMapper.insertNotice(board);
 	}
 
-	public List<Board> getBoardListBySearchKeyword(String searchKeyword) {
-		
-		List<Board> boardList = boardMapper.getBoardListBySearchKeyword(searchKeyword);
-		
-		return boardList;
-	}
 
+	
+	
+	
+	
+	
+	// paging
 	public List<Board> getNoticeBySearchWithPage(PageRequestDTO pageRequest) {
 		
 		return boardMapper.getNoticeBySearchWithPage(pageRequest);
 	}
 
+	// paging
 	public int getTotalCount(PageRequestDTO pageRequest) {
 
 		return boardMapper.getTotalCount(pageRequest);
-	}
-
-	public List<Board> getBoardList() {
-		return boardMapper.getBoardList();
 	}
 
 }

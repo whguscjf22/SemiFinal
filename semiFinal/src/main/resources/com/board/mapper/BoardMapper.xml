@@ -3,6 +3,41 @@
 PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.board.mapper.BoardMapper">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- 더미 board 생성용 -->
 	<insert id="insertNotice" parameterType="com.board.dto.Board">
 			INSERT INTO board (
@@ -17,27 +52,7 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 					#{boardName})
 	</insert>
 	
-	<select id="getBoardListBySearchKeyword"
-			parameterType="string"
-			resultType="com.board.dto.Board">
-		SELECT 
-			board_id as boardId,
-			board_title as boardTitle,
-			board_content as boardContent,
-			created_date as createdDate,
-			modified_date as modifiedDate,
-			user_id as userId,
-			file_id as fileId,
-			board_name as boardName,
-			count
-		FROM board
-		<trim prefix="WHERE">
-			<if test="searchKeyword != null">
-				board_title LIKE CONCAT ('%', #{searchKeyword}, '%')
-			</if>
-		</trim>
-	</select>
-	
+	<!-- paging -->
 	<select id="getNoticeBySearchWithPage"
 			parameterType="com.board.dto.PageRequestDTO"
 			resultType="com.board.dto.Board">
@@ -61,6 +76,7 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 		LIMIT #{start}, #{amount}
 	</select>
 	
+	<!-- paging -->
 	<select id="getTotalCount"
 			resultType="_int">
 		SELECT COUNT(board_id)
@@ -73,19 +89,4 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	
-	
-	
-	
-	<!-- 제목검색으로 페이징 -->
-	<!-- <select id="getTotalCount"
-			resultType="_int">
-		SELECT COUNT()
-		FROM board
-		<trim prefix="WHERE">
-			<if test="searchKeyword != null">
-				board_title LIKE CONCAT ('%', #{searchKeyword}, '%')
-			</if>
-		</trim>
-	</select> -->
-
 </mapper>

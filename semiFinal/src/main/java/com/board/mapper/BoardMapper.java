@@ -11,17 +11,32 @@ import com.board.dto.User;
 @Mapper
 public interface BoardMapper {
 
-	public List<Board> getTotalCount();
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 더미 생성용
 	public void insertNotice(Board board);
 
-	public List<Board> getBoardListBySearchKeyword(String searchKeyword);
 
+	// paging
 	public List<Board> getNoticeBySearchWithPage(PageRequestDTO pageRequest);
 
+	// paging
 	public int getTotalCount(PageRequestDTO pageRequest);
 
-	public List<Board> getBoardList();
 
 
 

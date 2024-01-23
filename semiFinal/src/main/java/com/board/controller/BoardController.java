@@ -33,32 +33,28 @@ public class BoardController {
 //					});
 //	}
 	
-	@GetMapping("/search")
-	public String moveSearch() {
-		return "search";
-	}
+
+
 	
 	
-	@GetMapping("/search/keyword")
-	public String searchKeyword(String searchKeyword,
-								Model model) {
-		
-		
-//		System.out.println(searchKeyword);
-//		searchKeyword = "10";
-		List<Board> boardList = boardService.getBoardListBySearchKeyword(searchKeyword);
-//		System.out.println(boardList);
-		
-		model.addAttribute("boardList",boardList);
-		
-		return "search";
 	
-	}	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// paging
+	// mainTest >> main 으로 변경해야함
 	@GetMapping("/mainTest")
 	public String searchWithPage(PageRequestDTO pageRequest,
 									Model model, String searchKeyword) {
-		System.out.println(pageRequest);
 		
 		List<Board> boardList = boardService.getNoticeBySearchWithPage(pageRequest);
 		int totalCount = boardService.getTotalCount(pageRequest);
@@ -68,9 +64,9 @@ public class BoardController {
 															.pageAmount(pageRequest.getAmount())
 															.pageRequest(pageRequest)
 															.build();
-		System.out.println(pageResponse);
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pageInfo", pageResponse);
+		
 		return "mainTest";
 		
 	}
