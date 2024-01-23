@@ -1,0 +1,4 @@
+메모장
+
+mybatis-config.xml  url 수정해야됨
+root-context.xml  url 수정해야됨

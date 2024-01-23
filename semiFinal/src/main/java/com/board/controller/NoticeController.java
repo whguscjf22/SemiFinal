@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.board.dto.Dept;
+import com.board.dto.User;
 import com.board.service.NoticeService;
 
 @Controller
@@ -16,12 +16,10 @@ public class NoticeController {
 	private NoticeService service;
 	
 	
-	@RequestMapping(value = "/dept/{deptno}", method = RequestMethod.GET)
-	public String testNotice(@PathVariable int deptno) {
-		
-		System.out.println(deptno);
-		Dept dept = service.testNotice(deptno);
-		System.out.println(dept);
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public String testNotice() {
+		User user = service.testNotice();
+		System.out.println(user);
 		
 		return "home";
 	}

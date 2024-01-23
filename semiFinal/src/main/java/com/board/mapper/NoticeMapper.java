@@ -2,12 +2,13 @@ package com.board.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.board.dto.Dept;
+import com.board.dto.User;
 
 @Mapper
 public interface NoticeMapper {
 
-	public Dept testNotice(int deptno);
+	public User testNotice();
+
 
 
 }
