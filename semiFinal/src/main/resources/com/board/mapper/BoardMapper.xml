@@ -34,11 +34,14 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 			board_name as boardName,
 			count
 		FROM board	
-		<trim prefix="WHERE">
-			<if test="searchKeyword != null">
-				board_title LIKE CONCAT ('%', #{searchKeyword}, '%')
-			</if>
-		</trim>
+		<where>
+	        <if test="searchKeyword != null and searchValue == 'boardTitle'">
+	            AND board_title LIKE CONCAT ('%', #{searchKeyword}, '%')
+	        </if>
+	        <if test="searchKeyword != null and searchValue == 'userId'">
+	            AND user_id LIKE CONCAT ('%', #{searchKeyword}, '%')
+	        </if>
+	    </where>
 		LIMIT #{start}, #{amount}
 	</select>
 	
@@ -47,11 +50,14 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 			resultType="_int">
 		SELECT COUNT(board_id)
 		FROM board
-		<trim prefix="WHERE">
-			<if test="searchKeyword != null">
-				board_title LIKE CONCAT ('%', #{searchKeyword}, '%')
-			</if>
-		</trim>
+		<where>
+        <if test="searchKeyword != null and searchValue == 'boardTitle'">
+            AND board_title LIKE CONCAT ('%', #{searchKeyword}, '%')
+        </if>
+        <if test="searchKeyword != null and searchValue == 'userId'">
+            AND user_id LIKE CONCAT ('%', #{searchKeyword}, '%')
+        </if>
+    </where>
 	</select>
 	
 	

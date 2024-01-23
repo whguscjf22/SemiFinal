@@ -17,6 +17,11 @@
 	<div>
 		<form id="mainForm" class="row justify-content-center g-3" action="/mainTest" method="GET" onsubmit="checkKeyword()">
 			<div class="col-auto">
+			<!-- 제목/작성자 선택버튼 -->
+			<select name="searchValue" class="selectFiled">
+				<option value="boardTitle">제목</option>
+				<option value="userId">작성자</option>
+			</select>
 				<label for="keyword" class="visually-hidden">Search</label> 
 					<input	
 						type="text" 
@@ -92,19 +97,15 @@
 		}
 	}
 	
-	// step01 : 페이징 버튼 클릭시 지정 url 요청 갈수 있도록 이벤트 등록
 	Array.from(document.getElementsByClassName('page-link'))
 		.forEach((pagingButton) => {
 			pagingButton.addEventListener('click', function(e) {
 				e.preventDefault();
-				// step02 : 등록 후, action : '/main' 으로 요청 시, keyword 값 유무에 따라 queryString 변경
-				// step03 : 요청
 				if (e.target.innerHTML.toLowerCase() === 'next') {
-	            mainForm.pageNum.value = ${pageInfo.endPage + 1}; // 'Next' 클릭 시
+	            mainForm.pageNum.value = ${pageInfo.endPage + 1}; 
 		        } else if (e.target.innerHTML.toLowerCase() === 'prev') {
-		            mainForm.pageNum.value = ${pageInfo.startPage - 1}; // 'Prev' 클릭 시
+		            mainForm.pageNum.value = ${pageInfo.startPage - 1}; 
 		        } else {
-	            // 다른 페이지 번호를 클릭한 경우 pageNum을 변경하고 검색 키워드가 있을 때만 해당 값을 추가
 	            mainForm.pageNum.value = e.target.innerHTML;
 
 	            if (mainForm.searchKeyword.value == '' || mainForm.searchKeyword.value == null) {
@@ -117,6 +118,26 @@
 				mainForm.submit();
 			})
 	})
+	
+	    // 페이지 로드 시 저장된 값이 있다면 해당 값으로 선택된 옵션 설정
+    document.addEventListener('DOMContentLoaded', function() {
+        var selectedOption = localStorage.getItem('selectedOption');
+        if (selectedOption) {
+            document.querySelector('.selectField').value = selectedOption;
+        }
+    });
+
+    // 선택된 옵션을 로컬 스토리지에 저장
+    function saveSelectedOption() {
+        var selectedOption = document.querySelector('.selectField').value;
+        localStorage.setItem('selectedOption', selectedOption);
+    }
+
+    // 검색 폼 제출 시 로컬 스토리지의 값을 초기화
+    function checkKeyword() {
+        localStorage.removeItem('selectedOption');
+        return true;
+    }
 </script>
 </body>
 </html>
