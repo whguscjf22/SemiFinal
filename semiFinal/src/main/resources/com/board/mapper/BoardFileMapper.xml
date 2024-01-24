@@ -2,7 +2,7 @@
 <!DOCTYPE mapper 
 PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.board.mapper.FileMapper">
+<mapper namespace="com.board.mapper.BoardFileMapper">
 	
 	<insert id="insertBoardFile"
 			parameterType="com.board.dto.BoardFile">
@@ -27,7 +27,7 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 	
 	<select id="getBoardFileByFileId"
 			parameterType="_Long"
-			resultMap="file">
+			resultMap="boardFile">
 		SELECT
 			file_id,
 			file_name,

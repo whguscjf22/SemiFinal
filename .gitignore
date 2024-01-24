@@ -23,7 +23,8 @@
 hs_err_pid*
 replay_pid*
 /.metadata/
-
+.metadata
+.metadata/
 
 *~
 .#*
@@ -60,3 +61,4 @@ target
 secrets.yml
 .gradletasknamecache
 .sts4-cache
+.properties
