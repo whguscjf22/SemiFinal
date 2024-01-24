@@ -6,7 +6,7 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 	
 	<insert id="insertBoardFile"
 			parameterType="com.board.dto.BoardFile">
-			INSERT INTO file
+			INSERT INTO board_file
 				(file_name,
 				original_file_name,
 				file_path,
@@ -24,6 +24,23 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 				#{boardId}
 				)
 	</insert>
+	
+	<select id="getBoardFileByBoardId"
+			parameterType="_long"
+			resultMap="boardFile">
+		SELECT
+			file_id,
+			file_name,
+			file_original_name,
+			file_path,
+			registered_date,
+			file_size,
+			board_id,
+			delete_date
+		FROM board_file
+		WHERE board_id = #{boardId}
+					
+	</select>
 	
 	<select id="getBoardFileByFileId"
 			parameterType="_Long"

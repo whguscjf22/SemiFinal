@@ -33,6 +33,9 @@ public class BoardFileController {
 		
 		BoardFile boardFile = null;
 		Resource resource = null;
+		
+		System.out.println(fileId);
+		
 		try {
 			boardFile = fileService.getBoardFileByFileId(fileId);
 			
@@ -45,7 +48,7 @@ public class BoardFileController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		headers.setContentDisposition(ContentDisposition
-											.builder("file")
+											.builder("board")
 											.filename(boardFile.getFileOriginalName())
 											.build());
 	
@@ -58,6 +61,7 @@ public class BoardFileController {
 	public String deleteFileByFileId(@PathVariable long fileId) {
 		
 		boolean result = false;
+		
 		
 		try {
 			result = fileService.deleteFileByFileId(fileId);

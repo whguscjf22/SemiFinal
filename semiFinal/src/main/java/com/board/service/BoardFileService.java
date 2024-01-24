@@ -58,6 +58,16 @@ public class BoardFileService {
 		return result;
 	}
 	
+	
+	// 파일 출력
+	public BoardFile getBoardFileByBoardId(long boardId) throws SQLException{
+		BoardFile boardFile = null;
+		
+		boardFile = boardFileMapper.getBoardFileByBoardId(boardId);
+		
+		return boardFile;
+	}
+	
 	// 파일 삭제
 	@Transactional
 	public boolean deleteFileByFileId(long fileId) throws SQLException, Exception {
