@@ -38,21 +38,23 @@ public class BoardController {
 //					});
 //	}
 	
+	// 조회수 - BoardDetail로 넘어가면 count 1씩 증가
 	// /boardList/{boardid}
 		@RequestMapping(value = "/board/{boardId}", method = RequestMethod.GET)
 		public String getBoardByBoardId(@PathVariable Long boardId, Model model) {
 			Board board = null;
+			int countResult = 0;
 			
 			System.out.println(boardId);
 			
 			try {
 				board = boardService.getBoardByBoardId(boardId);
 				System.out.println(board);
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
+			countResult = boardService.updateBoardCount(boardId);
 			model.addAttribute("boardId", boardId);
 			
 			return "BoardDetail";

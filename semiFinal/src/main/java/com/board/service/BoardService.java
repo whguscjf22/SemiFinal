@@ -93,6 +93,15 @@ public class BoardService {
 		
 		return result;
 	}
+	
+	// update count
+	public int updateBoardCount(Long boardId) {
+		int result = 0;
+		
+		result = boardMapper.updateBoardCount(boardId);
+		
+		return result;
+	}
 
 
 }
