@@ -40,4 +40,16 @@
  			(#{userId}, #{userName}, #{password},"일반회원")		
  	</insert>
  	
+ 	<update id="updateUserByUserId"
+ 			parameterType="com.board.dto.User">
+ 		UPDATE board_db.user
+ 		SET userName = #{userName}, password = #{password}
+ 		WHERE user_id = #{userId}
+ 	</update>
+ 	
+ 	<delete id="deleteUserByUserId"
+ 			parameterType="String">
+ 		DELETE FROM board_db.user WHERE user_id = #{userId}
+ 	</delete>
+ 	
 </mapper>

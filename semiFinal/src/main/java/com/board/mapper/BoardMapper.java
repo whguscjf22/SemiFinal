@@ -39,7 +39,8 @@ public interface BoardMapper {
 	// delete - Board
 	public int deleteBoardByBoardId(Long boardId)throws SQLException;
 
-	
+	// update count
+	public int updateBoardCount(Long boardId);
 
 
 }

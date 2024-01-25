@@ -37,5 +37,31 @@ public class UserService {
 		return result;
 	}
 
+	public boolean updateUserByUserId(User user) {
+		boolean result = false;
+		
+		int res = userMapper.updateUserByUserId(user);
+		if (res != 0 ) {
+			result = true;
+		}else {
+			new Exception("회원정보 변경 실패");
+		}
+		return result;
+	}
+
+	public boolean deleteUserByUserId(String userId) {
+		boolean result = false;
+		
+		int res = userMapper.deleteUserByUserId(userId);
+		if (res != 0 ) {
+			result = true;
+		}else {
+			new Exception("회원정보 삭제 실패");
+		}
+		return result;
+	}
+
+
+
 
 }
