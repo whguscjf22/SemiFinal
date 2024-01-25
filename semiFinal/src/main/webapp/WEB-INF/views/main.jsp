@@ -1,25 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<<<<<<< HEAD
-    
-=======
->>>>>>> origin/feat/mh
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<<<<<<< HEAD
-<title>Main</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-=======
 <title>Muti 게시판 Detail</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <link href="/resources/css/layout1.css" rel="stylesheet" type="text/css" />
 <link href="/resources/css/layout2.css" rel="stylesheet" type="text/css" />
->>>>>>> origin/feat/mh
 </head>
 <body>
 <c:if test = "${true}">
@@ -113,7 +104,7 @@
 						         <td bgcolor="">
 						            <p align="center">
 						            	<span style="font-size:12pt;">
-						             		<b>${board.createDate}</b>
+						             		<b><fmt:formatDate value="${board.createdDate}" pattern="yyyy-MM-dd HH:mm"/></b>
 						             	</span>
 						             </p>
 						        </td>
@@ -130,7 +121,31 @@
 		            </table>
 		        </div>
 		    </div>
-		   
+		     <!-- 페이지 버튼 -->
+		     <div class="row mt-4 justify-content-center">
+		    <div class="col-auto">
+		        <nav class="page navigation">
+		            <ul class="pagination">
+		                <c:if test="${pageInfo.prev}">
+		                    <li class="page-item">
+		                        <a class="page-link" aria-label="Previous" 
+                            href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Previous</a>
+                    </li>
+                </c:if>
+		     
+                <c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+                    <li class="page-item ${pageInfo.pageRequest.pageNum == num ? 'active' : ''}">
+                        <a class="page-link" 
+                            href="/main?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
+                    </li>
+                </c:forEach>
+                
+                <c:if test="${pageInfo.next}">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next" 
+                            href="/main?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
+                    </li>
+                </c:if>
 			<!-- board seach area -->
 		    <div id="board-search">
 		        <div class="container">
@@ -157,115 +172,147 @@
 </div>	
 </c:if>
 
-<div class="container">
-    <!-- https://getbootstrap.com/docs/5.3/forms/form-control/ -->
-    <div>
-        <form id="mainForm" class="row justify-content-center g-3" action="/main" method="GET" onsubmit="checkKeyword()">
-            <div class="col-auto">
-            <!-- 제목/작성자 선택버튼 -->
-            <select name="searchValue" class="selectFiled">
+</body>
+</html>
+
+<%-- <!-- Include Header -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Navigation Bar (Left Side) -->
+        <div class="col-lg-2 p-0">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light flex-column">
+                <!-- 유저 정보 -->
+                <div class="d-flex flex-column align-items-center mb-3">
+                    <img src="유저프로필이미지주소" alt="프로필 이미지" class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
+                    <span class="mt-2">유저 이름</span>
+                    <span class="mt-1">유저 이메일</span>
+                </div>
+                
+                <!-- 네비게이션 바 버튼 등 추가 내용은 여기에 추가 -->
+                <a class="nav-link" href="#">메뉴1</a>
+                <a class="nav-link" href="#">메뉴2</a>
+                <a class="nav-link" href="#">메뉴3</a>
+            </nav>
+        </div>
+
+        <!-- Main Content (Right Side) -->
+        <div class="col-lg-9">
+            <!-- 이 부분에 원래 있던 내용이 들어갑니다. -->
+<!-- Main Content -->
+<div class="container mt-5">
+    <table class="table table-bordered table-striped">
+        <thead class="table-light text-center">
+            <tr>
+                <th scope="col" class="col-1">번호</th>
+                <th scope="col" class="col-7">제목</th>
+                <th scope="col" class="col-1">작성자</th>
+                <th scope="col" class="col-2">작성일</th>
+                <th scope="col" class="col-1">조회수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:if test="${not empty boardList}">
+                <c:forEach var="board" items="${boardList}" varStatus="status">
+                    <tr>
+                        <th class="text-center" scope="row">${status.index + 1}</th>
+                        <td>
+                            <a href="/board/${board.boardId}?pageNum=${pageInfo.pageRequest.pageNum}">${board.boardTitle}</a>
+                        </td>
+                        <td class="text-center">${board.userId}</td>
+                        <td class="text-center">
+                            <fmt:formatDate value="${board.createdDate}" pattern="yyyy-MM-dd HH:mm"/>
+                        </td>
+                        <td class="text-center">${board.count}</td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+        </tbody>
+    </table>
+</div>
+<div class="row mt-4 justify-content-center">
+    <div class="col-auto">
+        <nav class="page navigation">
+            <ul class="pagination">
+                <c:if test="${pageInfo.prev}">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Previous" 
+                            href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Previous</a>
+                    </li>
+                </c:if>
+                
+                <!-- 페이지 버튼 -->
+                <c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+                    <li class="page-item ${pageInfo.pageRequest.pageNum == num ? 'active' : ''}">
+                        <a class="page-link" 
+                            href="/main?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
+                    </li>
+                </c:forEach>
+                
+                <c:if test="${pageInfo.next}">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next" 
+                            href="/main?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
+                    </li>
+                </c:if>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- Search Form at the Bottom -->
+<div class="container mt-5">
+    <form id="mainForm" class="row justify-content-center g-3" action="/main" method="GET" onsubmit="checkKeyword()">
+        <div class="col-auto">
+            <select name="searchValue" class="form-select">
                 <option value="boardTitle">제목</option>
                 <option value="userId">작성자</option>
             </select>
-                <label for="keyword" class="visually-hidden">Search</label> 
-                    <input    
-                        type="text" 
-                        class="form-control" 
-                        id="searchKeyword"
-                        placeholder="searchKeyword" 
-                        name="searchKeyword"
-                        value="${pageInfo.pageRequest.searchKeyword}">
-                        <!-- hidden -->
-                        <input name="pageNum" type="hidden" value="${pageInfo.pageRequest.pageNum}">
-                        <input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
-            </div>
-            <div class="col-auto">
-                <input type="submit" class="btn btn-primary mb-3" value="Search" />
-            </div>
-        </form>
-    </div>
-    <!-- https://getbootstrap.com/docs/5.3/components/list-group/ -->
-    <div class="row justify-content-center">
-        <div class="col-6">
-            <ul class="list-group">
-                <c:if test="${not empty boardList}">
-                    <c:forEach var="board" items="${boardList}">
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">${board.boardTitle}</div>
-                                ${board.boardContent}
-                            </div> <span class="badge bg-primary rounded-pill">${board.boardName}</span>
-                        </li>
-                    </c:forEach>
-                </c:if>
-            </ul>
         </div>
-    </div>
-    <!-- Paging -->
-    <!-- https://getbootstrap.com/docs/5.3/layout/columns/#alignment -->
-    <!-- https://getbootstrap.com/docs/5.3/components/pagination/#disabled-and-active-states -->
-    <div class="row justify-content-center">
         <div class="col-auto">
-            <nav class="page navigation">
-                <ul class="pagination">
-                    <c:if test="${pageInfo.prev}">
-                        <li class="page-item">
-                            <a class="page-link" aria-label="Previous" 
-                                href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
-                        </li>
-                    </c:if>
-                    <c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-                        <li class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
-                            <a class="page-link" 
-                                href="/main?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
-                        </li>
-                    </c:forEach>
-                    <c:if test="${pageInfo.next}">
-                        <li class="page-item next">
-                            <a class="page-link" aria-label="next" 
-                                href="/main?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
-                        </li>
-                    </c:if>
-                </ul>
-            </nav>
+            <input type="text" class="form-control" id="searchKeyword" placeholder="검색어" name="searchKeyword" value="${pageInfo.pageRequest.searchKeyword}">
+            <input name="pageNum" type="hidden" value="${pageInfo.pageRequest.pageNum}">
+            <input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">검색</button>
+        </div>
+    </form>
+</div>
         </div>
     </div>
 </div>
+
+ <!-- Paging -->
+
 <!-- 페이징 버튼 클릭시 => pageNum, amount, keyword -->
 <script type="text/javascript">
-    function checkKeyword(){
-        let mainForm = document.getElementById('mainForm');
-        // 검색 시 항상 pageNum을 1로 설정
-        mainForm.pageNum.value = 1;
-        if(mainForm.searchKeyword.value === null || mainForm.searchKeyword.value === ''){
-            mainForm.searchKeyword.remove();
-        }
-    }
-	
-    Array.from(document.getElementsByClassName('page-link')).forEach((pagingButton) => {
+    var startPage = ${pageInfo.startPage};
+    var endPage = ${pageInfo.endPage};
+
+    document.querySelectorAll('.page-link').forEach((pagingButton) => {
         pagingButton.addEventListener('click', function (e) {
             e.preventDefault();
 
-            // 등록 후, action : '/main' 으로 요청 시, keyword 값 유무에 따라 queryString 변경
             if (e.target.innerHTML.toLowerCase() === 'next') {
-                mainForm.pageNum.value = ${pageInfo.endPage + 1}; // 'Next' 클릭 시
-            } else if (e.target.innerHTML.toLowerCase() === 'prev') {
-                mainForm.pageNum.value = ${pageInfo.startPage - 1}; // 'Prev' 클릭 시
+                mainForm.pageNum.value = endPage + 1;
+            } else if (e.target.innerHTML.toLowerCase() === 'previous') {
+                mainForm.pageNum.value = startPage - 1;
             } else {
-            // 다른 페이지 번호를 클릭한 경우 pageNum을 변경하고 검색 키워드가 있을 때만 해당 값을 추가
-            mainForm.pageNum.value = e.target.innerHTML;
+                mainForm.pageNum.value = e.target.innerHTML;
 
-            if (mainForm.searchKeyword.value == '' || mainForm.searchKeyword.value == null) {
-                mainForm.searchKeyword.remove();
+                if (mainForm.searchKeyword.value === '' || mainForm.searchKeyword.value === null) {
+                    mainForm.searchKeyword.remove();
+                }
             }
-        }
-				
-				mainForm.action = '/main';
-				mainForm.method = 'GET';
-				mainForm.submit();
-			})
-	})
-	
+
+            mainForm.action = '/main';
+            mainForm.method = 'GET';
+            mainForm.submit();
+        });
+    });
 </script>
+
+
 </body>
-</html>
+<footer>
+</footer> 
+</html>--%>

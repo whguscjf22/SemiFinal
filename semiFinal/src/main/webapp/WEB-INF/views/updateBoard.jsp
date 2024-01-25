@@ -6,15 +6,11 @@
 <head>
 <title>Muti 게시판</title>
 <meta charset="UTF-8">
-<<<<<<< HEAD
-<title>Update Board</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-=======
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script> -->
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <link href="/resources/css/layout1.css" rel="stylesheet" type="text/css" />
 <link href="/resources/css/layout2.css" rel="stylesheet" type="text/css" />
->>>>>>> origin/feat/mh
 </head>
 <body>
 <c:if test = "${true}">
@@ -69,7 +65,7 @@
 					                    <th scope="row" bgcolor="#F9F9F9">작성자</th>
 					                    <td>${board.userId}</td>
 					                    <th scope="row" bgcolor="#F9F9F9">등록일</th>
-					                    <td>${board.createDate}</td>
+					                    <td>${board.createdDate}</td>
 					                </tr>
 					                 <tr>
 					                    <th scope="row" bgcolor="#F9F9F9">카테고리</th>
@@ -130,10 +126,8 @@
 </div>	
 </c:if>
 
-<%@ include file="header.jsp" %>
-
 <!-- action, method -->
-<form action="/board/${file.FileId}" method="POST" enctype="multipart/form-data">
+<%-- <form action="/board/${file.FileId}" method="POST" enctype="multipart/form-data">
 	<!--  PUT -->
 	<input type="hidden" name="_method" value="PUT">
 
@@ -141,11 +135,9 @@
 
 
 
-</form>
+</form> --%>
 
-<%@ include file="footer.jsp" %>
-
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	let boardFile = document.getElementById('board-file');
 	let deleteFileBtn = document.getElementById('file-delete-btn');
 	deleteFileBtn.addEventListener('click', (e) => {
@@ -167,7 +159,7 @@
 	})
 
 
-</script>
+</script> -->
 
 </body>
 </html>
