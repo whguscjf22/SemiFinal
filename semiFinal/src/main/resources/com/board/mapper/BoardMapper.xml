@@ -9,7 +9,7 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT board_id as boardId, 
 				board_title as boardTitle,
 				board_content as boardContent,
-				created_date as createdDate,
+				created_date as createDate,
 				modified_date as modifiedDate,
 				user_id as userId,
 				file_id as fileId,
@@ -22,13 +22,13 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
  		SELECT board_id as boardId, 
 				board_title as boardTitle,
 				board_content as boardContent,
-				created_date as createdDate,
+				created_date as createDate,
 				modified_date as modifiedDate,
 				user_id as userId,
 				file_id as fileId,
 				board_name as BoardName,
 				count
-		FROM board_db.board 
+		FROM board 
 		WHERE board_id = #{boardId} 
  	</select>
 
@@ -42,23 +42,23 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 				file_id as fileId,
 				board_name as BoardName,
 				count
-		FROM board_db.board 
+		FROM board 
 		WHERE board_name = #{boardName} 
  	</select> -->
  	
 	<insert id="insertBoard" parameterType="com.board.dto.Board">
- 		INSERT INTO board_db.board (board_title,board_content,created_date,board_name)
+ 		INSERT INTO board (board_title,board_content,created_date,board_name)
  		VALUES(#{boardTitle}, #{boardContent}, now(), #{BoardName})
  	</insert>
  	
  	<update id="updateBoardBYBoardId" parameterType="com.board.dto.Board">
- 		UPDATE board_db.board 
+ 		UPDATE board 
  		SET board_title = #{boardTitle}, board_content = #{boardContent}, modified_date = now()
- 		WHERE board_name = #{boardName} AND board_id = #{boardId}
+ 		WHERE board_id = #{boardId}
  	</update>
  	
  	<delete id="deleteBoardByBoardId" parameterType="long">
- 		DELETE FROM board_db.board WHERE board_id = #{boardId}
+ 		DELETE FROM board WHERE board_id = #{boardId}
  	</delete>
  	
 </mapper>
