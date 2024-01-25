@@ -1,6 +1,9 @@
 package com.board.controller;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.board.dto.Board;
+import com.board.dto.Comment;
 import com.board.dto.PageRequestDTO;
 import com.board.dto.PageResponseDTO;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,12 +21,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.board.service.BoardService;
+import com.board.service.CommentService;
+import com.board.service.UserService;
 
 @Controller
 public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private CommentService commentService;
+	
+	@Autowired
+	private UserService userService;
 	
 	// insert 더미데이터 생성
 //	@GetMapping("/board-data")
@@ -40,32 +52,40 @@ public class BoardController {
 	
 	// /boardList/{boardid}
 		@RequestMapping(value = "/board/{boardId}", method = RequestMethod.GET)
-		public String getBoardByBoardId(@PathVariable Long boardId, Model model) {
+		public String getBoardByBoardId(@PathVariable Long boardId, Model model, PageRequestDTO pageRequest) {
+			String view = "error";
 			Board board = null;
-			
-			System.out.println(boardId);
+			model.addAttribute("pageInfo", pageRequest);
 			
 			try {
 				board = boardService.getBoardByBoardId(boardId);
-				System.out.println(board);
-				
+				if(board != null) {
+					view = "BoardDetail";
+					
+					List<Comment> commentList = commentService.getCommentListByBoardId(boardId);
+					
+					model.addAttribute("board", board);
+					model.addAttribute("commentList", commentList);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
-			model.addAttribute("boardId", boardId);
 			
-			return "BoardDetail";
+			return view;
 		}
 	
 	// paging
 	@GetMapping("/main")
 	public String searchWithPage(PageRequestDTO pageRequest,
-									Model model, String searchKeyword) {
-		System.out.println(pageRequest);
+									Model model, String searchKeyword, HttpSession session) {
 		
 		List<Board> boardList = boardService.getNoticeBySearchWithPage(pageRequest);
 		int totalCount = boardService.getTotalCount(pageRequest);
+		
+		// test용 세션
+		session.setAttribute("userId", "q1w2e3r4");
+		System.out.println(session.getAttribute("userId"));
 
 		PageResponseDTO pageResponse = new PageResponseDTO().builder()
 															.total(totalCount)
@@ -131,20 +151,23 @@ public class BoardController {
 
 	// /modify/board/{boardId}
 	@RequestMapping(value = "/modify/board/{boardId}", method = RequestMethod.GET)
-	public String updateBoardForm(@PathVariable Long boardId, Model model) throws Exception {
+	public String updateBoardForm(@PathVariable Long boardId, Model model, PageRequestDTO pageRequest) throws Exception {
 		Board board = boardService.getBoardByBoardId(boardId);
-		
-		
+		System.out.println(pageRequest);
+		System.out.println("boardUpdate : " + board);
 		model.addAttribute("board", board);
+		model.addAttribute("pageInfo", pageRequest);
 		
 		return "updateBoard";
 	}
 		
 	@RequestMapping(value = "/board/{boardId}", method = RequestMethod.POST)
 	public String updateBoard(@PathVariable Long boardId,
-								@ModelAttribute Board newBoard, MultipartFile file) {
+								@ModelAttribute Board newBoard, MultipartFile file, PageRequestDTO pageRequest) {
 		//System.out.println("post");
-
+//		System.out.println(boardId);
+//		System.out.println(newBoard);
+//		System.out.println(pageRequest);
 		String view = "error";
 		
 		// 
@@ -184,5 +207,12 @@ public class BoardController {
 		}
 		return view;
 	}	
+	
+	@RequestMapping("/boardtest")
+	public String test() {
+		
+		return "boardtest";
+	}
+	
 		
 }

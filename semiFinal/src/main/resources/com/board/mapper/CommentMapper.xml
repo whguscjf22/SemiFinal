@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.board.mapper.CommentMapper">
+	<!-- <resultMap id="commentResultMap" type="com.board.dto.Comment">
+        <id property="commentId" column="comment_id"/>
+        <result property="commentContent" column="comment_content"/>
+        <result property="userId" column="user_id"/>
+        <result property="date" column="date"/>
+        <result property="boardId" column="board_id"/>
+    </resultMap> -->
+
+
+	<select id="getCommentListByBoardId"
+			parameterType="long"
+			resultType="com.board.dto.Comment">
+		SELECT comment_id as commentId, 
+				comment_content as commentContent, 
+				user_id as userId, 
+				date, 
+				board_id as boardId
+		FROM comment
+		WHERE board_id = #{boardId}
+	</select>
+	
+	<delete id="deleteComment"
+			parameterType="long">
+		DELETE FROM comment 
+		WHERE comment_id = #{commentId}
+	</delete>
+	
+	<insert id="insertComment"
+			parameterType="com.board.dto.Comment">
+		INSERT INTO comment(
+						comment_content, 
+						user_id, 
+						date, 
+						board_id)
+					VALUES(
+						#{commentContent}, 
+						#{userId}, 
+						now(), 
+						#{boardId})
+	</insert>
+
+
+</mapper>
