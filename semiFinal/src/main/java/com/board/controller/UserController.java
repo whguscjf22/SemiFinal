@@ -123,7 +123,7 @@ public class UserController {
 	}
 	
 	// 회원정보 수정 (관리자용)
-	@RequestMapping(value = "/user/{userId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/userInfo/{userId}", method = RequestMethod.POST)
 	public String updateUserForAdmin(@PathVariable String userId, @ModelAttribute User newUser) {
 		String view = "error";
 		User user = null;
