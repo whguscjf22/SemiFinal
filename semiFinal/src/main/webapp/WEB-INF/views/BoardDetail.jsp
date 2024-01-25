@@ -50,7 +50,7 @@
     <form action="/comment" method="POST" id="commentForm">
         <input type="hidden" name="boardId" value="${board.boardId}">
         <input type="hidden" name="userId" value="${sessionScope.userId}">
-        <input type="hidden" name="pageNum" value="${pageInfo.pageRequest.pageNum}">
+        <input type="hidden" name="pageNum" value="${pageInfo.pageNum}">
         <textarea class="form-control" style="height: 100px;" name="commentContent" placeholder="댓글을 입력하세요"></textarea>
         <button type="submit" class="btn btn-primary" style="margin-top: 10px;">댓글 작성</button>
     </form>
@@ -67,13 +67,8 @@ function checkData() {
     return true;
 }
 
-function goToDelete() {
-    location.href='http://localhost:8080/main/boardId=${board.boardId}';
-}
-
 function submitComment() {
     let commentForm = document.getElementById('commentForm');
-
     let formData = new FormData(commentForm);
 
     fetch('/comment', {
@@ -83,15 +78,25 @@ function submitComment() {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.json())
+    .then(response => response.text())
     .then(data => {
+        // 서버 응답 처리
+        console.log(data);
         alert("댓글이 작성되었습니다.");
-        window.location.reload();
+
+        // 필요한 동작 수행
+        // 예: 댓글 목록 갱신 등
+
+        // 서버 응답에 따라 동적으로 화면 갱신이 필요하면 해당 부분을 추가
     })
     .catch(error => {
         alert("댓글 작성에 실패하였습니다.");
-        window.location.reload();
     });
+}
+
+
+function goToDelete() {
+    location.href='http://localhost:8080/main/boardId=${board.boardId}';
 }
 
 function deleteComment(commentId) {

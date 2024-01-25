@@ -35,17 +35,19 @@ public class CommentController {
     }
 	
 	@RequestMapping(value = "/comment", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public ResponseEntity<String> insertComment(@ModelAttribute Comment newComment, PageRequestDTO pageRequest) {
-        System.out.println(newComment);
-        System.out.println(pageRequest.getPageNum());
+	public String insertComment(@ModelAttribute Comment newComment, PageRequestDTO pageRequest) {
+	    System.out.println(newComment);
+	    System.out.println(pageRequest.getPageNum());
+        
+        String view = "error";
         boolean result = false;
         result = commentService.insertComment(newComment);
 
         if (result) {
-        	System.out.println(result);
-            return ResponseEntity.ok("댓글 추가 성공");
+        	view =  "redirect:/board/" + newComment.getBoardId() + "?pageNum=" + pageRequest.getPageNum();
+            return view;
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 삭제 실패");
+            return view;
         }
     }
 	
