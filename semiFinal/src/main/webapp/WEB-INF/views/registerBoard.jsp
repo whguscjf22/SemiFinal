@@ -69,12 +69,6 @@
 				                        <textarea rows="20" cols="100" title="내용" id="boardContent" name="boardContent" placeholder="내용을 입력하세요. "></textarea>
 				                    </td>
 				                </tr>
-				                <tr>
-				                    <th scope="row" bgcolor="#F9F9F9">내용</th>
-				                    <td colspan="4">
-				                        <textarea rows="20" cols="100" title="내용" id="boardContent" name="boardContent" placeholder="내용을 입력하세요. "></textarea>
-				                    </td>
-				                </tr>
 				            </tbody>
 				        </table>
 						<span style="font-size:12pt; float: right;">
