@@ -73,17 +73,12 @@ public class UserController {
 		
 		try {
 			user = userService.getUserByUserId(newUser.getUserId());
-			System.out.println(user);
-			System.out.println(newUser.getUserId());
+			
 			if(user != null) {
 				model.addAttribute("error", "존재하는 아이디입니다!");
 		        return view;
 			} else {
-				result = userService.joinUser(newUser.getUserId(), 
-											  newUser.getUserName(), 
-											  newUser.getPassword());
-				System.out.println(result);
-				System.out.println(user);
+				result = userService.joinUser(newUser);
 				if(result) {
 					view = "redirect:/login";
 				}
@@ -92,7 +87,6 @@ public class UserController {
 	        model.addAttribute("error", "사용자 등록 중 오류가 발생했습니다.");
 	        return view;
 		}
-		System.out.println(user);
 		return view;	
 	}
 	

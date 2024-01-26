@@ -49,7 +49,7 @@
 		<section class="notice">
 		  <div class="page-title">
 		        <div class="container">
-		            <h3>회원가입</h3>
+		            <h3>로그인</h3>
 		        </div>
 		  </div>
 			<!-- action, method -->

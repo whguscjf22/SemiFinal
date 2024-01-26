@@ -33,11 +33,11 @@
  	</select>
  	
  	<insert id="joinUser"
- 			parameterType="string">
+ 			parameterType="com.board.dto.User">
  		INSERT INTO 
  			user(user_id, user_name, password, grade) 
  		VALUES
- 			(#{userId}, #{userName}, #{password},"일반회원")		
+ 			(#{userId}, #{userName}, #{password},'일반회원')		
  	</insert>
  	
  	<update id="updateUserByUserId"
