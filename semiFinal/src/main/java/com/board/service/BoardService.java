@@ -44,7 +44,7 @@ public class BoardService {
 		return boardMapper.getBoardByBoardId(boardId);
 	}
 	
-	public Board getBoardByBoardName(String boardName) throws Exception{
+	public List<Board> getBoardByBoardName(String boardName) throws Exception{
 		
 		return boardMapper.getBoardByBoardName(boardName);
 	}

@@ -15,26 +15,9 @@
 <body>
 <c:if test = "${true}">
 <div id = "wrap">
-	<!-- aside  -->
-	<aside id="aside">
-      <h1 class="logo"><a href="/main">Muti 게시판</a></h1>
-       <div class="login">
-        <form action="">
-            <input type="text" placeholder="아이디" class="in">
-            <input type="password" placeholder="비밀번호" class="in">
-            <input type="submit" id="btn" value="로그인"><br>
-        </form>
-        <a href="#">회원가입을 하시겠습니까?</a>
-     </div>
-      <nav class="side-bar">
-      	<ul>
-        	<li><a href="/main">홈</a></li>
-			<li><a href="#">공지게시판</a></li>
-			<li><a href="#">정보게시판</a></li>
-			<li><a href="#">자유게시판</a></li>
-	   	</ul>
-      </nav>
-    </aside>
+	
+	<!-- aside -->
+    <%@ include file="aside.jsp" %>
     
     <!-- main  -->
 	<main id="main">
@@ -75,7 +58,7 @@
 									<p align="center">
 										<span style="font-size:12pt;">
 											<b>
-												<a href="board/${board.boardId}">${board.boardName}</a>
+												<a href="/board?boardName=${board.boardName}">${board.boardName}</a>
 											</b>
 										</span>
 									</p>
@@ -83,7 +66,7 @@
 						        <td bgcolor="">
 						            <p align="center">
 						            	<span style="font-size:12pt;">
-						             		<b>${board.boardTitle}</b>
+						             		<b><a href="board/${board.boardId}">${board.boardTitle}</a></b>
 						             	</span>
 						             </p>
 						        </td>
@@ -122,30 +105,36 @@
 		        </div>
 		    </div>
 		     <!-- 페이지 버튼 -->
-		     <div class="row mt-4 justify-content-center">
-		    <div class="col-auto">
-		        <nav class="page navigation">
-		            <ul class="pagination">
-		                <c:if test="${pageInfo.prev}">
-		                    <li class="page-item">
-		                        <a class="page-link" aria-label="Previous" 
-                            href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Previous</a>
-                    </li>
-                </c:if>
 		     
-                <c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-                    <li class="page-item ${pageInfo.pageRequest.pageNum == num ? 'active' : ''}">
-                        <a class="page-link" 
-                            href="/main?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
-                    </li>
-                </c:forEach>
+		     <div id="pageBtn" style="margin:10px;">
+			     <div class="row justify-content-center" style="display: flex; justify-content: center;">
+					<div class="col-auto">
+						<table class="page navigation">
+							<tr class="pagination">
+								<c:if test="${pageInfo.prev}">
+									<th class="page-item">
+										<a class="page-link" aria-label="Previous"
+											href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
+									</th>
+								</c:if>
+								<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+									<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+										<a class="page-link" style="padding:10px;"
+ 											href="/main?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
+									</th>
+								</c:forEach>
+								<c:if test="${pageInfo.next}">
+									<th class="page-item next">
+										<a class="page-link" aria-label="next"
+											href="/main?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
+									</th>
+								</c:if>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
                 
-                <c:if test="${pageInfo.next}">
-                    <li class="page-item">
-                        <a class="page-link" aria-label="Next" 
-                            href="/main?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
-                    </li>
-                </c:if>
 			<!-- board seach area -->
 		    <div id="board-search">
 		        <div class="container">
@@ -164,11 +153,7 @@
 	</main>
 	
 	<!-- footer -->
-	<footer id="footer">
-		<div class="footer1">
-			copyright 2024
-		</div>
-	</footer>
+	<%@ include file="footer.jsp" %>
 </div>	
 </c:if>
 

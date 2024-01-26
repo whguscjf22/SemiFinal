@@ -20,6 +20,7 @@
 	<mappers>
 		<mapper resource="/com/board/mapper/NoticeMapper.xml"/>
 		<mapper resource="/com/board/mapper/BoardMapper.xml"/>
+		<mapper resource="/com/board/mapper/BoardFileMapper.xml"/>
 	</mappers>
 	
 

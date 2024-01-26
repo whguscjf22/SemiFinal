@@ -28,7 +28,7 @@ public interface BoardMapper {
 	public Board getBoardByBoardId(Long boardId);
 	
 	//객체
-	public Board getBoardByBoardName(String boardName)throws SQLException;
+	public List<Board> getBoardByBoardName(String boardName)throws SQLException;
 
 	// insert - Board
 	public int insertBoard(Board board)throws SQLException;

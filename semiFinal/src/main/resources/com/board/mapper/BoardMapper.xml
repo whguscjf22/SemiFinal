@@ -72,6 +72,11 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 				file_id as fileId,
 				board_name as BoardName,
 				count
+			<!-- <trim prefix="WHERE">
+				<if test="boardName != null">
+					board_name = #{boardName}
+				</if>
+			</trim> -->
 		FROM board_db.board
 	</select>
 
@@ -89,7 +94,7 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 		WHERE board_id = #{boardId} 
  	</select>
 
-<!-- 	<select id="getBoardByBoardName" parameterType="string" resultType="com.board.dto.Board">
+	<select id="getBoardByBoardName" parameterType="string" resultType="com.board.dto.Board">
  		SELECT board_id as boardId, 
 				board_title as boardTitle,
 				board_content as boardContent,
@@ -101,11 +106,11 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 				count
 		FROM board 
 		WHERE board_name = #{boardName} 
- 	</select> -->
+ 	</select>
  	
 	<insert id="insertBoard" parameterType="com.board.dto.Board">
- 		INSERT INTO board (board_title,board_content,created_date,board_name)
- 		VALUES(#{boardTitle}, #{boardContent}, now(), #{BoardName})
+ 		INSERT INTO board (board_title,board_content,created_date, user_id, file_id, board_name, count)
+ 		VALUES(#{boardTitle}, #{boardContent}, now(), #{userId}, #{fileId}, #{boardName}, 0)
  	</insert>
  	
  	<update id="updateBoardBYBoardId" parameterType="com.board.dto.Board">
