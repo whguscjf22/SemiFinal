@@ -1,25 +1,32 @@
 package com.board.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import java.sql.SQLException;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.board.dto.Board;
-import com.board.dto.Comment;
-import com.board.dto.PageRequestDTO;
-import com.board.dto.PageResponseDTO;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.MultipartFilter;
 
+import com.board.dto.Board;
+import com.board.dto.BoardFile;
+import com.board.dto.Comment;
+import com.board.dto.PageRequestDTO;
+import com.board.dto.PageResponseDTO;
+import com.board.service.BoardFileService;
 import com.board.service.BoardService;
 import com.board.service.CommentService;
 import com.board.service.UserService;
@@ -35,6 +42,20 @@ public class BoardController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private BoardFileService boardFileService;
+	
+//	@Bean public CommonsMultipartResolver multipartResolver() { 
+//		CommonsMultipartResolver multipart = new CommonsMultipartResolver(); 
+//		multipart.setMaxUploadSize(3 * 1024 * 1024); 
+//		return multipart;
+//		} 
+//	@Bean @Order(0) public MultipartFilter multipartFilter() { 
+//		MultipartFilter multipartFilter = new MultipartFilter(); 
+//		multipartFilter.setMultipartResolverBeanName("multipartReso‌​lver"); 
+//		return multipartFilter; 
+//		} 
 	
 	// insert 더미데이터 생성
 //	@GetMapping("/board-data")
@@ -67,7 +88,9 @@ public class BoardController {
 					view = "BoardDetail";
 					
 					List<Comment> commentList = commentService.getCommentListByBoardId(boardId);
+					BoardFile file = boardFileService.getBoardFileByBoardId(boardId);
 					
+					model.addAttribute("file", file);
 					model.addAttribute("board", board);
 					model.addAttribute("commentList", commentList);
 				}
@@ -113,7 +136,7 @@ public class BoardController {
 		// test용 세션
 //		session.setAttribute("userId", "q1w2e3r4");
 //		System.out.println(session.getAttribute("userId"));
-		session.invalidate();
+//		session.invalidate();
 
 		PageResponseDTO pageResponse = new PageResponseDTO().builder()
 															.total(totalCount)
@@ -153,17 +176,26 @@ public class BoardController {
 		return "registerBoard";
 	}
 	
+
 	@RequestMapping(value = "/board", method = RequestMethod.POST)
-	public String insertBoard(@ModelAttribute Board newBoard, MultipartFile file) {
-		
+	public String insertBoard(Board newBoard, MultipartFile file) {
 		String view = "error";
+		boolean fileResult = false;
 		boolean boardResult = false;
-	
+		System.out.println(newBoard);
+		System.out.println(file.getOriginalFilename());
+		
 		try {
 			boardResult = boardService.insertBoard(newBoard);
-
-			
+			System.out.println(newBoard.getBoardId());
 			if(boardResult) {
+				if(file != null) {
+					System.out.println(boardResult);
+//					BoardFile newFile = new BoardFile();
+//					newBoard.setBoardId(1L);
+//					System.out.println(boardService.getBoardByBoardId(newBoard.getBoardId()));
+					fileResult = boardFileService.insertBoardFile(file, newBoard.getBoardId());
+				}
 				view = "redirect:/main";
 				return view;
 			}
@@ -181,8 +213,9 @@ public class BoardController {
 	@RequestMapping(value = "/modify/board/{boardId}", method = RequestMethod.GET)
 	public String updateBoardForm(@PathVariable Long boardId, Model model, PageRequestDTO pageRequest) throws Exception {
 		Board board = boardService.getBoardByBoardId(boardId);
-		System.out.println(pageRequest);
-		System.out.println("boardUpdate : " + board);
+		BoardFile file = boardFileService.getBoardFileByBoardId(boardId);
+		
+		model.addAttribute("file", file);
 		model.addAttribute("board", board);
 		model.addAttribute("pageInfo", pageRequest);
 		
@@ -191,13 +224,11 @@ public class BoardController {
 		
 	@RequestMapping(value = "/board/{boardId}", method = RequestMethod.POST)
 	public String updateBoard(@PathVariable Long boardId,
-								@ModelAttribute Board newBoard, MultipartFile file, PageRequestDTO pageRequest) {
-		//System.out.println("post");
-//		System.out.println(boardId);
-//		System.out.println(newBoard);
-//		System.out.println(pageRequest);
+								@ModelAttribute Board newBoard, 
+								MultipartFile file, 
+								PageRequestDTO pageRequest) {
 		String view = "error";
-		
+		System.out.println("파일 확인중" + file);
 		// 
 		Board board = null;
 		boolean result = false;
@@ -208,6 +239,10 @@ public class BoardController {
 			board.setBoardContent(newBoard.getBoardContent());
 			
 			result = boardService.updateBoardBYBoardId(board);
+			
+			if(file != null) {
+				boardFileService.insertBoardFile(file, boardId);
+			}
 			
 			if(result) {
 				view = "redirect:/board/" + boardId;
@@ -226,7 +261,7 @@ public class BoardController {
 		
 		String view = "error";
 		boolean result = false;
-		
+		boolean comResult = commentService.deleteCommentByBoardId(boardId);
 		result = boardService.deleteBoardByBoardId(boardId);
 		
 		if(result) {

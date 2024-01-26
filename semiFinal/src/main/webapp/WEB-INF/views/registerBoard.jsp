@@ -44,7 +44,7 @@
 		            <h3>게시판 글 작성</h3>
 		        </div>
 		    </div>
-			<form action="/board" method="POST">
+			<form action="/board" method="POST"  enctype="multipart/form-data">
 			    <div id="board-list">
 		        	<div class="container">
 					    <table class="board-table"> 
@@ -57,10 +57,12 @@
 				            <tbody> 
 				                <tr>
 				                    <th scope="row" bgcolor="#F9F9F9">작성자</th>
-				                    <td>${board.userId}</td>
+				                    <td>
+								        <input type="text" id="userId" name="userId" size="30" value="${sessionScope.userId}" readonly>
+								    </td>
 				                    <th scope="row" bgcolor="#F9F9F9">카테고리</th>
 				                    <td><%-- ${board.boardName} --%>
-										  <select name="category">
+										  <select id="boardName" name="boardName">
 									    	<option value="noticeBoard">공지게시판</option>
 									    	<option value="infoBoard">정보게시판</option>
 									    	<option value="freeBoard">자유게시판</option>
@@ -74,15 +76,15 @@
 				                    </td>
 				                </tr>
 				                <tr>
-				                    <th scope="row" bgcolor="#F9F9F9">내용</th>
+				                    <th scope="row" bgcolor="#F9F9F9">첨부파일</th>
 				                    <td colspan="4">
-				                        <textarea rows="20" cols="100" title="내용" id="boardContent" name="boardContent" placeholder="내용을 입력하세요. "></textarea>
+			                        	<input type="file" name="file" size="30">
 				                    </td>
 				                </tr>
 				                <tr>
-				                    <th scope="row" bgcolor="#F9F9F9">첨부파일</th>
+				                    <th scope="row" bgcolor="#F9F9F9">내용</th>
 				                    <td colspan="4">
-				                        <input type="file" name="file" size="30">
+				                        <textarea rows="20" cols="100" title="내용" id="boardContent" name="boardContent" placeholder="내용을 입력하세요. "></textarea>
 				                    </td>
 				                </tr>
 				            </tbody>

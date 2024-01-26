@@ -28,6 +28,12 @@
 		WHERE comment_id = #{commentId}
 	</delete>
 	
+	<delete id="deleteCommentByBoardId"
+			parameterType="long">
+		DELETE FROM comment 
+		WHERE board_id = #{boardId}
+	</delete>
+	
 	<insert id="insertComment"
 			parameterType="com.board.dto.Comment">
 		INSERT INTO comment(

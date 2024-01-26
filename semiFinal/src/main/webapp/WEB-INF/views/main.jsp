@@ -121,31 +121,34 @@
 		            </table>
 		        </div>
 		    </div>
-		     <!-- 페이지 버튼 -->
-		     <div class="row mt-4 justify-content-center">
-		    <div class="col-auto">
-		        <nav class="page navigation">
-		            <ul class="pagination">
-		                <c:if test="${pageInfo.prev}">
-		                    <li class="page-item">
-		                        <a class="page-link" aria-label="Previous" 
-                            href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Previous</a>
-                    </li>
-                </c:if>
-		     
-                <c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-                    <li class="page-item ${pageInfo.pageRequest.pageNum == num ? 'active' : ''}">
-                        <a class="page-link" 
-                            href="/main?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
-                    </li>
-                </c:forEach>
-                
-                <c:if test="${pageInfo.next}">
-                    <li class="page-item">
-                        <a class="page-link" aria-label="Next" 
-                            href="/main?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
-                    </li>
-                </c:if>
+		    <!-- 페이지 버튼 -->
+			<div class="row justify-content-center">
+					<div class="col-auto">
+						<table class="page navigation">
+							<tr class="pagination">
+								<c:if test="${pageInfo.prev}">
+									<th class="page-item">
+										<a class="page-link" aria-label="Previous" 
+											href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
+									</th>
+								</c:if>
+								<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+									<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
+										<a class="page-link" 
+											href="/main?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
+									</th>
+								</c:forEach>
+								<c:if test="${pageInfo.next}">
+									<th class="page-item next">
+										<a class="page-link" aria-label="next" 
+											href="/main?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
+									</th>
+								</c:if>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
 			<!-- board seach area -->
 		    <div id="board-search">
 		        <div class="container">

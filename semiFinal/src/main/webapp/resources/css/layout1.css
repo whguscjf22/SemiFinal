@@ -299,3 +299,25 @@ section.notice {
      background-color: #9d9d9d;
      border: none;
  }
+ 
+.CommentBtn{
+	background:#555;
+	color:white;
+	width: 100px;
+}
+.CommentBtn:hover {
+     background-color: #9d9d9d;
+     border: none;
+ }
+ 
+.Ctn{
+	background:#555;
+	color:white;
+	width: 100px;
+	border-radius:30px; 
+    border:outset;
+}
+.Ctn:hover {
+     background-color: #9d9d9d;
+    
+ }

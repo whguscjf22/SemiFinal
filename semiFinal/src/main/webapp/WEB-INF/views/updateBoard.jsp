@@ -11,6 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <link href="/resources/css/layout1.css" rel="stylesheet" type="text/css" />
 <link href="/resources/css/layout2.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
 </head>
 <body>
 <c:if test = "${true}">
@@ -44,7 +45,7 @@
 			            <h3>게시판 정보수정</h3>
 			        </div>
 			    </div>
-				<form action="/board/${boardId}" method="POST">
+				<form action="/board/${boardId}" method="POST" enctype="multipart/form-data">
 				    <div id="board-list">
 			        	<div class="container">
 						    <table class="board-table"> 
@@ -137,7 +138,7 @@
 
 </form> --%>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 	let boardFile = document.getElementById('board-file');
 	let deleteFileBtn = document.getElementById('file-delete-btn');
 	deleteFileBtn.addEventListener('click', (e) => {
@@ -156,10 +157,10 @@
 						boardFile.appendChild(newInput);
 					}
 				})
-	})
+	});
 
 
-</script> -->
+</script>
 
 </body>
 </html>

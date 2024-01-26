@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.board.dto.Board;
 import com.board.dto.PageRequestDTO;
@@ -50,6 +51,7 @@ public class BoardService {
 	}
 
 	// insert - board
+	@Transactional
 	public boolean insertBoard(Board board) throws SQLException, Exception {
 		boolean result = false;
 		

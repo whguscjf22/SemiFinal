@@ -14,5 +14,7 @@ public interface CommentMapper {
 	public int deleteComment(Long commentId);
 
 	public int insertComment(Comment newComment);
+
+	public int deleteCommentByBoardId(Long boardId);
 	
 }

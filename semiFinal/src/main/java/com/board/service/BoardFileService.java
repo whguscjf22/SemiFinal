@@ -34,7 +34,7 @@ public class BoardFileService {
 			throw new Exception("파일 전달 오류 발생");
 		}
 		
-		String filePath = "C:\\muti";
+		String filePath = "C:\\multi\\00.spring";
 		String fileOriginalName = file.getOriginalFilename();
 		UUID uuid = UUID.randomUUID();
 		String fileName = uuid.toString() + "_" + fileOriginalName;

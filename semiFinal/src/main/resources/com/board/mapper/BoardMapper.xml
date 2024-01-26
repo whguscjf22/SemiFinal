@@ -103,9 +103,12 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 		WHERE board_name = #{boardName} 
  	</select> -->
  	
-	<insert id="insertBoard" parameterType="com.board.dto.Board">
- 		INSERT INTO board (board_title,board_content,created_date,board_name)
- 		VALUES(#{boardTitle}, #{boardContent}, now(), #{BoardName})
+	<insert id="insertBoard" parameterType="com.board.dto.Board"
+			useGeneratedKeys="true"
+			keyColumn="board_id"
+			keyProperty="boardId">
+ 		INSERT INTO board (board_title,board_content,created_date,board_name, user_id, count)
+ 		VALUES(#{boardTitle}, #{boardContent}, now(), #{BoardName}, #{userId}, 0)
  	</insert>
  	
  	<update id="updateBoardBYBoardId" parameterType="com.board.dto.Board">
