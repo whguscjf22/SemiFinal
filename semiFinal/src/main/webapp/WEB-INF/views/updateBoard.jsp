@@ -13,21 +13,22 @@
 <link href="/resources/css/layout2.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
 <div id = "wrap">
 
-	<!-- aside  -->
-	<%@ include file="aside.jsp" %>
+	<!-- aside -->
+    <%@ include file="aside.jsp" %>
+
     
     <!-- main  -->
 	<main id="main">
 		<section class="notice">
-		  	<div class="page-title">
-		        <div class="container">
-		            <h3>게시판 정보수정</h3>
-		        </div>
-		    </div>
-		    
+		  <div class="page-title">
+	        <div class="container">
+	            <h3>게시판 정보수정</h3>
+	        </div>
+		  </div>
+		  
+		    <c:if test="${not empty sessionScope.userId}">
 			<form action="/board/${boardId}" method="POST">
 			    <div id="board-list">
 		        	<div class="container">
@@ -90,6 +91,7 @@
 				                </tr>
 				            </tbody>
 				        </table>
+				        
 						<span style="font-size:12pt; float: right;">
 							<input type="submit" value="정보수정" class="Btn">
 							<input type="reset" value="다시작성" class="Btn">
@@ -97,19 +99,27 @@
 		        	 </div>
 		    	</div>
 	   		</form>
-	   		
+
 			<div class="container">
 				<span style="font-size:12pt; float: left; margin-right:7px;"><input type="button" value="목록으로" class="Btn" onclick="location.href='/main'"></span>
 				<span style="font-size:12pt; float: left;"><input type="button" value="삭제하기" class="Btn" onclick="deleteDept()"></span>
 			</div>
 			
-	 	</section>
+		  </c:if>
+	 	
+	 	<c:if test="${empty sessionScope.userId}">
+			<script>
+				alert("로그인을 하세요!");
+				history.back();
+			</script>
+		</c:if>
+		
+		</section>
    </main>
    
    <!-- footer -->
    <%@ include file="footer.jsp" %>
 </div>	
-
 
 
 <!-- action, method -->

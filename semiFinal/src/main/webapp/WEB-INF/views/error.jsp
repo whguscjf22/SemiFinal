@@ -12,7 +12,6 @@
 <link href="/resources/css/layout2.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
 	<div align="center">
 		<h2>죄송합니다. 문제가 발생하였습니다.</h2>
 	</div>
@@ -21,6 +20,7 @@
 	
 	<div align="center">
 		<h3>${exception.getMessage()}</h3>
+		<h3>${requestScope.error}</h3>
 	</div>
 	 
 	<br>

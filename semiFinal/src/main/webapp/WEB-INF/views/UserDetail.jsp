@@ -26,89 +26,112 @@
 		        </div>
 		  </div>
 			<!-- action, method -->
-			<form action="/modify/user/${user.userId}" method="POST">
-				<!-- PUT -->
-				<input type="hidden" name="_method" value="PUT">
+			<form action="/modify/user/${user.userId}" method="GET" name="detailForm" id="detailForm" >
 				<table align="center" cellpadding="5" cellspacing="1" width="600" border="1">
 				    <tr>
 				        <td width="1220" height="20" colspan="2" bgcolor="#333">
 				            <p align="center">
 				            	<font color="white" size="3">
-				            		<b>회원 정보 업데이트</b>
+				            		<b>회원 상세 정보</b>
 				            	</font>
 				            </p>
 				        </td>
 				    </tr>
 				    <tr>
 				        <td width="150" height="20">
-				            <p align="center"><b><span style="font-size:9pt;">회원 아이디</span></b></p>
+				            <p align="center"><b><span style="font-size:12pt;">회원아이디</span></b></p>
 				        </td>
 				        <td width="450" height="20" align="center">
 				        	<b>
-				        		<span style="font-size:9pt;">
-				        			<input type="text" name="userId" size="30" value="${userId}" readonly disabled>
+				        		<span id="UserId" style="font-size:12pt;">
+				        			${uesr.userId}
 				        		</span>
 				        	</b>
 				        </td>
 				    </tr>
 				    <tr>
 				        <td width="150" height="20">
-				            <p align="center"><b><span style="font-size:9pt;">회원명</span></b></p>
+				            <p align="center"><b><span style="font-size:12pt;">회원명</span></b></p>
 				        </td>
 				        <td width="450" height="20" align="center">
 				        	<b>
-				        		<span style="font-size:9pt;">
-				        			<input type=text name="dname" size="30" value="${userName}">
+				        		<span style="font-size:12pt;">
+				        			${user.userName}
 				        		</span>
 				        	</b>
 				        </td>
 				    </tr>
 				    <tr>
 				        <td width="150" height="20">
-				            <p align="center"><b><span style="font-size:9pt;">비밀번호</span></b></p>
+				            <p align="center"><b><span style="font-size:12pt;">비밀번호</span></b></p>
 				        </td>
 				        <td width="450" height="20" align="center">
 				        	<b>
-				        		<span style="font-size:9pt;">
-				        			<input type=password name="password" size="30" value="${password}">
+				        		<span style="font-size:12pt;" type="password">
+				        			${user.password}
 				        		</span>
 				        	</b>
 				        </td>
 				    </tr>
 				    <tr>
 				        <td width="150" height="20">
-				            <p align="center"><b><span style="font-size:9pt;">회원등급</span></b></p>
+				            <p align="center"><b><span style="font-size:12pt;">회원 등급</span></b></p>
 				        </td>
 				        <td width="450" height="20" align="center">
 				        	<b>
-				        		<span style="font-size:9pt;">
-				        			<input type="text" name="Grade" size="30" value="${Grade}" readonly disabled>
+				        		<span style="font-size:12pt;">
+				        			${user.grade} 
 				        		</span>
 				        	</b>
 				        </td>
 				    </tr>
-				    
 				    <tr>
 				        <td width="150" height="20">
-				            <p><b><span style="font-size:9pt;">&nbsp;</span></b></p>
+				            <p align="center"><b><span style="font-size:12pt;">&nbsp;</span></b></p>
 				        </td>
 				        <td width="450" height="20" align="center">
 				        	<b>
-				        		<span style="font-size:9pt;">
-									<input type="submit" value="회원수정">
-									&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="reset" value="다시작성">
+				        		<span style="font-size:12pt;">
+				        		<button type="button" class="joinuser" onClick="location.href='http://localhost:8080/modify/user/${userId}'">회원정보 수정</button>
 								</span>
 							</b>
 						</td>
 				    </tr>
 				</table>
 			</form>
-<hr>
-<div align=center>
-	<span style="font-size:12pt;"><input type="button" value="메인으로" onclick="location.href='/main'"></span>
-</div>
-   <!-- footer -->
-   <%@ include file="footer.jsp" %>
-</body>
+	
+			<hr>
+			<div align=center>
+				<span style="font-size:12pt;"><input type="button" value="메인으로" onclick="location.href='/main'"></span>
+				<span style="font-size:12pt;"><input type="button" value="회원 삭제" onclick="deleteUser()"></span>
+			</div>
+			
+			<%@ include file="footer.jsp" %>
+			
+			<script type="text/javascript">
+			
+				
+				function deleteUser(){	  
+				  let detailForm = document.getElementById('detailForm');		  
+				  let userId = document.getElementById('userId').innerHTML;
+			
+				  let hiddenInput = document.createElement('input');
+				  hiddenInput.type = 'hidden';
+				  hiddenInput.name = '_method';
+				  hiddenInput.value = 'DELETE';
+				  
+				  detailForm.append(hiddenInput);
+				  
+				  detailForm.action = "/user/" + userId;
+				  detailForm.method = "POST";
+				  detailForm.submit();
+				}
+			
+			</script>
+			</section>
+			</main>
+			<!-- footer -->
+    		<%@ include file="footer.jsp" %>
+		</div>	
+	</body>
 </html>

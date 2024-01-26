@@ -5,16 +5,23 @@
 
 <!-- aside  -->
 <aside id="aside">
-     <h1 class="logo"><a href="/main">Muti 게시판</a></h1>
-      <div class="login">
-       <form action="">
-           <input type="text" placeholder="아이디" class="in">
-           <input type="password" placeholder="비밀번호" class="in">
-           <input type="submit" id="btn" value="로그인"><br>
-       </form>
-       <a href="#">회원가입을 하시겠습니까?</a>
-    </div>
-     <nav class="side-bar">
+      <h1 class="logo"><a href="/main">Multi 게시판</a></h1>
+       <div class="login">
+	   	<c:if test="${empty sessionScope.userId}">
+	        <form action="login">
+	            <input type="submit" id="login" value="로그인"><br>
+	        </form>
+        	<a href="/joinUser">회원가입을 하시겠습니까?</a>
+		</c:if> 
+		<c:if test="${not empty sessionScope.userId}">
+        	<strong>${userId} 님</strong><br>
+        	<strong> 회원 등급 :${userGrade}</strong><br>
+        	<br/><hr><br/>
+        	<button type="button" class="logout" onClick="location.href='http://localhost:8080/logout'">로그아웃</button> <br/>
+	        <button type="button" class="userDetail" onClick="location.href='http://localhost:8080/user/${userId}'">회원정보</button>
+	    </c:if>     
+       </div>
+       <nav class="side-bar">
      	<ul>
 	       	<li><a href="/main">홈</a></li>
 			<li><a href="/board?boardName=noticeBoard">공지게시판</a></li>
@@ -23,3 +30,4 @@
    		</ul>
      </nav>
 </aside>
+

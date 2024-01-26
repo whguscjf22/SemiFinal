@@ -33,7 +33,7 @@
  	</select>
  	
  	<insert id="joinUser"
- 			parameterType="com.board.dto.User">
+ 			parameterType="string">
  		INSERT INTO 
  			user(user_id, user_name, password, grade) 
  		VALUES

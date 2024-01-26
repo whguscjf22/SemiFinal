@@ -12,11 +12,9 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
 </head>
 <body>
-
 <div id = "wrap">
-
-	<!-- aside  -->
-	<%@ include file="aside.jsp" %>
+	<!-- aside -->
+    <%@ include file="aside.jsp" %>
     
     <!-- main  -->
 	<main id="main">
@@ -25,8 +23,9 @@
 		        <div class="container">
 		            <h3>게시판 글 작성</h3>
 		        </div>
-		   	</div>
-		   	
+		    </div>
+		    
+		    <c:if test="${not empty sessionScope.userId}">
 			<form action="/board" method="POST">
 			    <div id="board-list">
 		        	<div class="container">
@@ -83,12 +82,21 @@
 			<div class="container">
 				<span style="font-size:12pt; float: left; margin-right:7px;"><input type="button" value="목록으로" class="Btn" onclick="location.href='/main'"></span>
 			</div>
+
+			</c:if>
+			<c:if test="${empty sessionScope.userId}">
+				<script>
+					alert("로그인을 하세요!");
+					history.back();
+				</script>
+			</c:if>
 			
 	 	</section>
    </main>
    
    <!-- footer -->
    <%@ include file="footer.jsp" %>
+   
 </div>	
 
 <script type="text/javascript">
