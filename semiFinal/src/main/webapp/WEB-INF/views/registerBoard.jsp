@@ -26,7 +26,7 @@
 		    </div>
 		    
 		    <c:if test="${not empty sessionScope.userId}">
-			<form action="/board" method="POST">
+			<form action="/board" method="POST" enctype="multipart/form-data">
 			    <div id="board-list">
 		        	<div class="container">
 					    <table class="board-table"> 
@@ -60,7 +60,13 @@
 				                <tr>
 				                    <th scope="row" bgcolor="#F9F9F9">첨부파일</th>
 				                    <td colspan="4">
-				                        <input type="file" name="file" size="30">
+			                        	<input type="file" name="file" size="30">
+				                    </td>
+				                </tr>
+				                <tr>
+				                    <th scope="row" bgcolor="#F9F9F9">내용</th>
+				                    <td colspan="4">
+				                        <textarea rows="20" cols="100" title="내용" id="boardContent" name="boardContent" placeholder="내용을 입력하세요. "></textarea>
 				                    </td>
 				                </tr>
 				                <tr>

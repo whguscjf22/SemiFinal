@@ -40,6 +40,18 @@ public class CommentService {
 		}
 		return result;
 	}
+
+	public boolean deleteCommentByBoardId(Long boardId) {
+
+		int res = 0;
+		boolean result = false;
+		
+		res = commentMapper.deleteCommentByBoardId(boardId);
+		if(res != 0) {
+			result = true;
+		}
+		return result;
+	}
 	
 	
 

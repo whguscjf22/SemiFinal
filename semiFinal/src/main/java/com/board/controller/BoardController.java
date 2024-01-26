@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.board.dto.Board;
 import com.board.dto.BoardFile;
 import com.board.dto.Comment;
@@ -39,7 +38,7 @@ public class BoardController {
 	private UserService userService;
 	
 	@Autowired
-	private BoardFileService fileService;
+	private BoardFileService boardFileService;
 	
 	// insert 더미데이터 생성
 //	@GetMapping("/board-data")
@@ -73,7 +72,9 @@ public class BoardController {
 					view = "BoardDetail";
 					
 					List<Comment> commentList = commentService.getCommentListByBoardId(boardId);
+					BoardFile file = boardFileService.getBoardFileByBoardId(boardId);
 					
+					model.addAttribute("file", file);
 					model.addAttribute("board", board);
 					model.addAttribute("commentList", commentList);
 				}
@@ -87,26 +88,6 @@ public class BoardController {
 			return view;
 		}
 		
-		// 미현님꺼 참조
-		//boardList/{boardid}
-//		@RequestMapping(value = "/board/{boardId}", method = RequestMethod.GET)
-//		public String getBoardByBoardId(@PathVariable Long boardId, Model model) {
-//			Board board = null;
-//			
-//			System.out.println(boardId);
-//			
-//			try {
-//				board = boardService.getBoardByBoardId(boardId);
-//				System.out.println(board);
-//				
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			
-//			model.addAttribute("board", board);
-//			
-//			return "BoardDetail";
-//		}
 	
 	// paging
 	@GetMapping("/main")
@@ -120,8 +101,7 @@ public class BoardController {
 //		session.setAttribute("userId", "q1w2e3r4");
 //		System.out.println(session.getAttribute("userId"));
 
-		//session.invalidate(); //test할 때 주석처리
-
+//		session.invalidate();
 		PageResponseDTO pageResponse = new PageResponseDTO().builder()
 															.total(totalCount)
 															.pageAmount(pageRequest.getAmount())
@@ -176,25 +156,28 @@ public class BoardController {
 		return view;
 	}
 	
+
 	@RequestMapping(value = "/board", method = RequestMethod.POST)
-	public String insertBoard(@ModelAttribute Board newBoard, MultipartFile file) {
-		
+	public String insertBoard(Board newBoard, MultipartFile file) {
 		String view = "error";
-		
-		boolean boardResult = false;
 		boolean fileResult = false;
-	
+		boolean boardResult = false;
+		System.out.println(newBoard);
+		System.out.println(file.getOriginalFilename());
+		
 		try {
 			boardResult = boardService.insertBoard(newBoard);
-			
-			if(file != null) {
-				fileResult = fileService.insertBoardFile(file, newBoard.getBoardId());
-				
-			}
-			
-			if(boardResult || fileResult) {
+			System.out.println(newBoard.getBoardId());
+			if(boardResult) {
+				if(file != null) {
+					System.out.println(boardResult);
+//					BoardFile newFile = new BoardFile();
+//					newBoard.setBoardId(1L);
+//					System.out.println(boardService.getBoardByBoardId(newBoard.getBoardId()));
+					fileResult = boardFileService.insertBoardFile(file, newBoard.getBoardId());
 				view = "redirect:/main";
 				return view;
+				}
 			}
 			
 		} catch (Exception e) {
@@ -202,18 +185,19 @@ public class BoardController {
 			return view;
 		}
 		
-		
+			
 		return view;
+	
 	}
+
 
 	// /modify/board/{boardId}
 	@RequestMapping(value = "/modify/board/{boardId}", method = RequestMethod.GET)
 	public String updateBoardForm(@PathVariable Long boardId, Model model, PageRequestDTO pageRequest) throws Exception {
 		Board board = boardService.getBoardByBoardId(boardId);
+		BoardFile file = boardFileService.getBoardFileByBoardId(boardId);
 		
-		System.out.println(pageRequest);
-		System.out.println("boardUpdate : " + board);
-		
+		model.addAttribute("file", file);
 		model.addAttribute("board", board);
 		model.addAttribute("pageInfo", pageRequest);
 		
@@ -223,12 +207,8 @@ public class BoardController {
 	@RequestMapping(value = "/board/{boardId}", method = RequestMethod.POST)
 	public String updateBoard(@PathVariable Long boardId,
 								@ModelAttribute Board newBoard, MultipartFile file, PageRequestDTO pageRequest) {
-//		System.out.println("post");
-//		System.out.println(boardId);
-//		System.out.println(newBoard);
-//		System.out.println(pageRequest);
 		String view = "error";
-		
+		System.out.println("파일 확인중" + file);
 		// 
 		Board board = null;
 		boolean result = false;
@@ -241,9 +221,10 @@ public class BoardController {
 			result = boardService.updateBoardBYBoardId(board);
 			System.out.println(result);
 			
-//			if(file != null) {
-//				fileService.insertBoardFile(file, board.getBoardId());
-//			}
+			
+			if(file != null) {
+				boardFileService.insertBoardFile(file, boardId);
+			}
 			
 			if(result) {
 				view = "redirect:/board/" + boardId;
@@ -262,7 +243,7 @@ public class BoardController {
 		
 		String view = "error";
 		boolean result = false;
-		
+		boolean comResult = commentService.deleteCommentByBoardId(boardId);
 		result = boardService.deleteBoardByBoardId(boardId);
 		
 		if(result) {

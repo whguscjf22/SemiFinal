@@ -7,26 +7,48 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 	<insert id="insertBoardFile"
 			parameterType="com.board.dto.BoardFile">
 			INSERT INTO board_file
-				(file_name,
-				original_file_name,
+				(
+				file_name,
+				file_original_name,
 				file_path,
 				registered_date,
 				file_size,
-				delete_date,
-				board_id)
+				board_id
+				)
 			VALUES (
 				#{fileName},
 				#{fileOriginalName},
 				#{filePath},
 				now(),
 				#{fileSize},
-				now(),
 				#{boardId}
 				)
 	</insert>
 	
+<!-- 	<insert id="insertBoardFile" 
+			useGeneratedKeys="true" 
+			keyColumn="board_id" 
+			keyProperty="boardId" 
+			parameterType="com.board.dto.BoardFile">
+    INSERT INTO board_file (
+    			file_name,
+				file_original_name,
+				file_path,
+				registered_date,
+				file_size,
+				board_id
+    ) VALUES (
+    	#{fileName},
+				#{fileOriginalName},
+				#{filePath},
+				now(),
+				#{fileSize},
+				#{boardId}
+    )
+    </insert> -->
+	
 	<select id="getBoardFileByBoardId"
-			parameterType="_long"
+			parameterType="long"
 			resultMap="boardFile">
 		SELECT
 			file_id,
@@ -36,14 +58,14 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 			registered_date,
 			file_size,
 			board_id,
-			delete_date
+			deleted_date
 		FROM board_file
 		WHERE board_id = #{boardId}
 					
 	</select>
 	
 	<select id="getBoardFileByFileId"
-			parameterType="_Long"
+			parameterType="long"
 			resultMap="boardFile">
 		SELECT
 			file_id,
@@ -53,8 +75,8 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 			registered_date,
 			file_size,
 			board_id,
-			delete_date
-		FROM file
+			deleted_date
+		FROM board_file
 		WHERE file_id = #{fileId}
 	</select>
 
@@ -66,12 +88,12 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
  		<result property="registeredDate" column="registered_date"/>
  		<result property="fileSize" column="file_size"/>
  		<result property="boardId" column="board_id"/>
- 		<result property="deleteDate" column="delete_date"/>
+ 		<result property="deletedDate" column="deleted_date"/>
  	</resultMap>
  	
  	<delete id="deleteFileByFileId"
- 			parameterType="_Long">
- 		DELETE FROM file
+ 			parameterType="long">
+ 		DELETE FROM board_file
  		WHERE file_id = #{fileId}
  	</delete>
 </mapper>

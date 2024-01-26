@@ -116,7 +116,7 @@
 							<tr class="pagination">
 								<c:if test="${pageInfo.prev}">
 									<th class="page-item">
-										<a class="page-link" aria-label="Previous"
+										<a class="page-link" aria-label="Previous" 
 											href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
 									</th>
 								</c:if>
@@ -137,7 +137,6 @@
 					</div>
 				</div>
 			</div>
-                
 			<!-- board seach area -->
 		    <div id="board-search">
 		        <div class="container">

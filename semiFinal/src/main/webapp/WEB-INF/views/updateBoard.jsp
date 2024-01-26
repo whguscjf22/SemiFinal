@@ -11,6 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <link href="/resources/css/layout1.css" rel="stylesheet" type="text/css" />
 <link href="/resources/css/layout2.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
 </head>
 <body>
 <div id = "wrap">
@@ -21,6 +22,7 @@
     
     <!-- main  -->
 	<main id="main">
+<<<<<<< HEAD
 		<section class="notice">
 		  <div class="page-title">
 	        <div class="container">
@@ -29,7 +31,7 @@
 		  </div>
 		  
 		    <c:if test="${not empty sessionScope.userId}">
-			<form action="/board/${boardId}" method="POST">
+			<form action="/board/${boardId}" method="POST" enctype="multipart/form-data">
 			    <div id="board-list">
 		        	<div class="container">
 					    <table class="board-table"> 
@@ -149,7 +151,7 @@
 						boardFile.appendChild(newInput);
 					}
 				})
-	})
+	});
 
 </script> 
 
