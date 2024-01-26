@@ -204,7 +204,7 @@ public class BoardController {
 		return "updateBoard";
 	}
 		
-	@RequestMapping(value = "/board/{boardId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/board/{boardId}", method = RequestMethod.PUT)
 	public String updateBoard(@PathVariable Long boardId,
 								@ModelAttribute Board newBoard, MultipartFile file, PageRequestDTO pageRequest) {
 		String view = "error";
