@@ -16,12 +16,9 @@
 		<c:if test="${not empty sessionScope.userId}">
         	<strong>${userId} 님</strong><br>
         	<strong> 회원 등급 :${userGrade}</strong><br>
-	        <form action="logout">
-	        	<input type="submit" id="logout" value="로그아웃">
-	        </form>
-	        <form action="modify/user/${userId}">
-	           	<input type="submit" id="updateUserDetail" value="회원정보 수정"><br>
-	        </form>
+        	<br/><hr><br/>
+        	<button type="button" class="logout" onClick="location.href='http://localhost:8080/logout'">로그아웃</button> <br/>
+	        <button type="button" class="userDetail" onClick="location.href='http://localhost:8080/user/${userId}'">회원정보</button>
 	    </c:if>     
        </div>
        <nav class="side-bar">

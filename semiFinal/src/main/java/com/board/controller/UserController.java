@@ -107,7 +107,7 @@ public class UserController {
 //			return "updateUserForAdmin";
 		}
 		
-		return "updateUserDetail";
+		return "updateUser";
 	}
 	
 	// 회원정보 수정(회원용)

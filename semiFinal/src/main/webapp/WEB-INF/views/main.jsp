@@ -15,7 +15,7 @@
 <body>
 <div id = "wrap">
 	<!-- aside -->
-    <%@ include file="asideForMain.jsp" %>
+    <%@ include file="aside.jsp" %>
     
     <!-- main  -->
 	<main id="main">
