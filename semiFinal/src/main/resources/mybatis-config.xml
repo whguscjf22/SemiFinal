@@ -2,7 +2,7 @@
 <!DOCTYPE configuration PUBLIC "//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.board.dto.Dept" alias="Dept"/>
+		<typeAlias type="com.board.mapper.BoardFileMapper" alias="boardFile"/>
 	</typeAliases>
 	
 	<environments default="development">
@@ -19,6 +19,8 @@
 	
 	<mappers>
 		<mapper resource="/com/board/mapper/NoticeMapper.xml"/>
+		<mapper resource="/com/board/mapper/BoardMapper.xml"/>
+		<mapper resource="/com/board/mapper/BoardFileMapper.xml"/>
 	</mappers>
 	
 

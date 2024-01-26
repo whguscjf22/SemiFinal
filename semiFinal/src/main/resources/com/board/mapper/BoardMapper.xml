@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.board.mapper.BoardMapper">
+
+	<!-- 더미 board 생성용 -->
+	<insert id="insertNotice" parameterType="com.board.dto.Board">
+			INSERT INTO board (
+					board_title, 
+					created_date, 
+					board_content, 
+					board_name) 
+			VALUES (
+					#{boardTitle}, 
+					now(), 
+					#{boardContent}, 
+					#{boardName})
+	</insert>
+	
+	<!-- paging -->
+	<select id="getNoticeBySearchWithPage"
+			parameterType="com.board.dto.PageRequestDTO"
+			resultType="com.board.dto.Board">
+			<bind name="start" value="(pageNum-1)*amount"/>
+		SELECT 
+			board_id as boardId,
+			board_title as boardTitle,
+			board_content as boardContent,
+			created_date as createdDate,
+			modified_date as modifiedDate,
+			user_id as userId,
+			file_id as fileId,
+			board_name as boardName,
+			count
+		FROM board	
+		<where>
+	        <if test="searchKeyword != null and searchValue == 'boardTitle'">
+	            AND board_title LIKE CONCAT ('%', #{searchKeyword}, '%')
+	        </if>
+	        <if test="searchKeyword != null and searchValue == 'userId'">
+	            AND user_id LIKE CONCAT ('%', #{searchKeyword}, '%')
+	        </if>
+	    </where>
+		LIMIT #{start}, #{amount}
+	</select>
+	
+	<!-- paging -->
+	<select id="getTotalCount"
+			resultType="_int">
+		SELECT COUNT(board_id)
+		FROM board
+		<where>
+        <if test="searchKeyword != null and searchValue == 'boardTitle'">
+            AND board_title LIKE CONCAT ('%', #{searchKeyword}, '%')
+        </if>
+        <if test="searchKeyword != null and searchValue == 'userId'">
+            AND user_id LIKE CONCAT ('%', #{searchKeyword}, '%')
+        </if>
+    </where>
+	</select>
+	
+	
+	<select id="getAllBoardList"
+			resultType="com.board.dto.Board">
+		SELECT board_id as boardId, 
+				board_title as boardTitle,
+				board_content as boardContent,
+				created_date as createdDate,
+				modified_date as modifiedDate,
+				user_id as userId,
+				file_id as fileId,
+				board_name as BoardName,
+				count
+			<!-- <trim prefix="WHERE">
+				<if test="boardName != null">
+					board_name = #{boardName}
+				</if>
+			</trim> -->
+		FROM board_db.board
+	</select>
+
+	<select id="getBoardByBoardId" parameterType="long" resultType="com.board.dto.Board">
+ 		SELECT board_id as boardId, 
+				board_title as boardTitle,
+				board_content as boardContent,
+				created_date as createdDate,
+				modified_date as modifiedDate,
+				user_id as userId,
+				file_id as fileId,
+				board_name as BoardName,
+				count
+		FROM board 
+		WHERE board_id = #{boardId} 
+ 	</select>
+
+	<select id="getBoardByBoardName" parameterType="string" resultType="com.board.dto.Board">
+ 		SELECT board_id as boardId, 
+				board_title as boardTitle,
+				board_content as boardContent,
+				created_date as createdDate,
+				modified_date as modifiedDate,
+				user_id as userId,
+				file_id as fileId,
+				board_name as BoardName,
+				count
+		FROM board 
+		WHERE board_name = #{boardName} 
+ 	</select>
+ 	
+	<insert id="insertBoard" parameterType="com.board.dto.Board"
+			useGeneratedKeys="true"
+			keyColumn="board_id"
+			keyProperty="boardId">
+ 		INSERT INTO board (board_title,board_content,created_date,board_name, user_id, count)
+ 		VALUES(#{boardTitle}, #{boardContent}, now(), #{BoardName}, #{userId}, 0)
+ 	</insert>
+ 	
+ 	<update id="updateBoardBYBoardId" parameterType="com.board.dto.Board">
+ 		UPDATE board 
+ 		SET board_title = #{boardTitle}, board_content = #{boardContent}, modified_date = now()
+ 		WHERE board_id = #{boardId}
+ 	</update>
+ 	
+ 	<delete id="deleteBoardByBoardId" parameterType="long">
+ 		DELETE FROM board WHERE board_id = #{boardId}
+ 	</delete>
+ 	
+ 	<!-- 조회수 -->
+ 	<update id="updateBoardCount" parameterType="long">
+ 		UPDATE board_db.board 
+ 		SET count = count+1
+ 		WHERE board_id = #{boardId}
+ 	</update>
+ 	
+</mapper>

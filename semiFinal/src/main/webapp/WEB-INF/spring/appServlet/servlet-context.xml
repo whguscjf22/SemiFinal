@@ -26,7 +26,7 @@
 	<interceptors>
 		<interceptor>
 			<!-- 인터셉터 실행 url  -->
-			<mapping path="/dept/**"/> 				
+			<!-- <mapping path="/dept/**"/> 		 -->		
 			<mapping path="/modify/**"/>
 			<mapping path="/logout"/>
 			<!-- 인터셉터 제외 url -->
@@ -35,15 +35,15 @@
 			 				
 			<!-- 인터셉터 bean 등록할 class 지정 -->
 			<!-- url 확인 -->
-			<beans:bean	id="sessionIntesrceptor" class="com.board.common.interceptor.SessionInterceptor"/>	
+			<beans:bean	id="sessionIntesrceptor" class="com.board.interceptor.SessionInterceptor"/>	
 		</interceptor>
 	</interceptors>
+	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		 	<beans:property name="maxUploadSize" value="104857600"/>
 	 		<beans:property name="maxUploadSizePerFile" value="104857600"/>
 	 		<beans:property name="maxInMemorySize" value="104857600"/>
+	 		<beans:property name="defaultEncoding" value="UTF-8" />
 	</beans:bean>
-	
-	
 	
 </beans:beans>

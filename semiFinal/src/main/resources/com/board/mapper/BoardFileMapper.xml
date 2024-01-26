@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.board.mapper.BoardFileMapper">
+	
+	<insert id="insertBoardFile"
+			parameterType="com.board.dto.BoardFile">
+			INSERT INTO board_file
+				(
+				file_name,
+				file_original_name,
+				file_path,
+				registered_date,
+				file_size,
+				board_id
+				)
+			VALUES (
+				#{fileName},
+				#{fileOriginalName},
+				#{filePath},
+				now(),
+				#{fileSize},
+				#{boardId}
+				)
+	</insert>
+	
+<!-- 	<insert id="insertBoardFile" 
+			useGeneratedKeys="true" 
+			keyColumn="board_id" 
+			keyProperty="boardId" 
+			parameterType="com.board.dto.BoardFile">
+    INSERT INTO board_file (
+    			file_name,
+				file_original_name,
+				file_path,
+				registered_date,
+				file_size,
+				board_id
+    ) VALUES (
+    	#{fileName},
+				#{fileOriginalName},
+				#{filePath},
+				now(),
+				#{fileSize},
+				#{boardId}
+    )
+    </insert> -->
+	
+	<select id="getBoardFileByBoardId"
+			parameterType="long"
+			resultMap="boardFile">
+		SELECT
+			file_id,
+			file_name,
+			file_original_name,
+			file_path,
+			registered_date,
+			file_size,
+			board_id,
+			deleted_date
+		FROM board_file
+		WHERE board_id = #{boardId}
+					
+	</select>
+	
+	<select id="getBoardFileByFileId"
+			parameterType="long"
+			resultMap="boardFile">
+		SELECT
+			file_id,
+			file_name,
+			file_original_name,
+			file_path,
+			registered_date,
+			file_size,
+			board_id,
+			deleted_date
+		FROM board_file
+		WHERE file_id = #{fileId}
+	</select>
+
+	<resultMap type="com.board.dto.BoardFile" id="boardFile">
+ 		<result property="fileId" column="file_id"/>
+ 		<result property="fileName" column="file_name"/>
+ 		<result property="fileOriginalName" column="file_original_name"/>
+ 		<result property="filePath" column="file_path"/>
+ 		<result property="registeredDate" column="registered_date"/>
+ 		<result property="fileSize" column="file_size"/>
+ 		<result property="boardId" column="board_id"/>
+ 		<result property="deletedDate" column="deleted_date"/>
+ 	</resultMap>
+ 	
+ 	<delete id="deleteFileByFileId"
+ 			parameterType="long">
+ 		DELETE FROM board_file
+ 		WHERE file_id = #{fileId}
+ 	</delete>
+</mapper>
