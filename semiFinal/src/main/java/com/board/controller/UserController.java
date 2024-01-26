@@ -70,6 +70,10 @@ public class UserController {
 		String view = "error";
 		boolean result = false;
 		System.out.println(newUser);		
+		if(newUser.getUserId() == null || newUser.getUserId().isEmpty() || newUser.getPassword() == null) {
+			model.addAttribute("error", "아이디 / 비밀번호를 입력해주세요!");
+	        return view;
+	    }
 		
 		try {
 			user = userService.getUserByUserId(newUser.getUserId());
@@ -105,7 +109,7 @@ public class UserController {
 	}
 	
 	// 회원정보 수정(회원용)
-	@RequestMapping(value = "/user/{userId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/User/{userId}", method = RequestMethod.POST)
 	public String updateUser(@PathVariable String userId, @ModelAttribute User newUser) {
 		String view = "error";
 		User user = null;

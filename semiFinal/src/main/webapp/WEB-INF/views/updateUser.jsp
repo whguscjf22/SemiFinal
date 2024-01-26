@@ -22,11 +22,11 @@
 		<section class="notice">
 		  <div class="page-title">
 		        <div class="container">
-		            <h3>회원가입</h3>
+		            <h3>회원정보 수정</h3>
 		        </div>
 		  </div>
 			<!-- action, method -->
-			<form action="/modify/user/${user.userId}" method="POST">
+			<form action="/user/${userId}" method="POST">
 				<!-- PUT -->
 				<input type="hidden" name="_method" value="PUT">
 				<table align="center" cellpadding="5" cellspacing="1" width="600" border="1">
@@ -82,7 +82,7 @@
 				        <td width="450" height="20" align="center">
 				        	<b>
 				        		<span style="font-size:9pt;">
-				        			<input type="text" name="Grade" size="30" value="${Grade}" readonly disabled>
+				        			<input type="text" name="Grade" size="30" value="${grade}" readonly disabled>
 				        		</span>
 				        	</b>
 				        </td>

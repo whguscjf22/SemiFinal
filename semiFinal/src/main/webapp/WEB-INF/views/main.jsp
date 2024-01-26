@@ -23,7 +23,7 @@
 		<section class="notice">
 		  <div class="page-title">
 		        <div class="container">
-		            <h3>공지사항</h3>
+		            <h3>게시판 목록</h3>
 		        </div>
 		  </div>
 
