@@ -13,28 +13,9 @@
 <link href="/resources/css/layout2.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<c:if test = "${true}">
 <div id = "wrap">
-	<!-- aside  -->
-	<aside id="aside">
-      <h1 class="logo"><a href="/main">Muti 게시판</a></h1>
-       <div class="login">
-        <form action="">
-            <input type="text" placeholder="아이디" class="in">
-            <input type="password" placeholder="비밀번호" class="in">
-            <input type="submit" id="btn" value="로그인"><br>
-        </form>
-        <a href="#">회원가입을 하시겠습니까?</a>
-     </div>
-      <nav class="side-bar">
-      	<ul>
-        	<li><a href="/main">홈</a></li>
-			<li><a href="#">공지게시판</a></li>
-			<li><a href="#">정보게시판</a></li>
-			<li><a href="#">자유게시판</a></li>
-	   	</ul>
-      </nav>
-    </aside>
+	<!-- aside -->
+    <%@ include file="asideForMain.jsp" %>
     
     <!-- main  -->
 	<main id="main">
@@ -43,12 +24,16 @@
 		        <div class="container">
 		            <h3>공지사항</h3>
 		        </div>
-		    </div>
-   
+		  </div>
+
 		  	<!-- board list area -->
 		    <div id="board-list">
 		        <div class="container">
-		        	<span style="font-size:12pt; float: right; margin-bottom:10px; "><input type="button" value="부서생성" class="Btn" onclick="location.href='/board'"></span>
+		        	<span style="font-size:12pt; float: right; margin-bottom:10px; ">
+		        		<c:if test="${not empty sessionScope.userId}">
+		        			<input type="button" value="게시글 작성" class="Btn" onclick="location.href='/board'">
+		        		</c:if>
+		        	</span>
 		            <table class="board-table">
 		                <thead>
 		                <tr>
@@ -164,14 +149,9 @@
 	</main>
 	
 	<!-- footer -->
-	<footer id="footer">
-		<div class="footer1">
-			copyright 2024
-		</div>
-	</footer>
+    s<%@ include file="footer.jsp" %>
+   
 </div>	
-</c:if>
-
 </body>
 </html>
 

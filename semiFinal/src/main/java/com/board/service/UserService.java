@@ -28,7 +28,7 @@ public class UserService {
 	public boolean joinUser(String userId, String userName,String password) {
 		boolean result = false;
 		
-		int res = userMapper.joinUser(userId,userName,password);
+		int res = userMapper.joinUser(userId, userName, password);
 		if (res != 0 ) {
 			result = true;
 		}else {

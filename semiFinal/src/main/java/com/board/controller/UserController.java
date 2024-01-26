@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.board.dto.Board;
@@ -38,7 +39,7 @@ public class UserController {
 		user = userService.getUserByUserIdAndPassword(userId, password);
 		System.out.println(user);
 		if(user!=null) {
-			session.setAttribute("userName", user.getUserId());
+			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("userGrade", user.getGrade());
 			view = "redirect:/main";
 			return view;
@@ -64,19 +65,32 @@ public class UserController {
 	
 	// 회원가입
 	@RequestMapping(value="/joinUser", method = RequestMethod.POST)
-	public String joinUser(@ModelAttribute User newUser) {
+	public String joinUser(@ModelAttribute User newUser, Model model) {
 		User user = null;
 		String view = "error";
 		boolean result = false;
+		System.out.println(newUser);		
 		
-		user = userService.getUserByUserId(newUser.getUserId());
-		if(user == null) {
-			result = userService.joinUser(newUser.getUserId(), 
-										  newUser.getUserName(), 
-										  newUser.getPassword());
-			if(result) {
-				view = "redirect:/login";
+		try {
+			user = userService.getUserByUserId(newUser.getUserId());
+			System.out.println(user);
+			System.out.println(newUser.getUserId());
+			if(user != null) {
+				model.addAttribute("error", "존재하는 아이디입니다!");
+		        return view;
+			} else {
+				result = userService.joinUser(newUser.getUserId(), 
+											  newUser.getUserName(), 
+											  newUser.getPassword());
+				System.out.println(result);
+				System.out.println(user);
+				if(result) {
+					view = "redirect:/login";
+				}
 			}
+		} catch (Exception e) {
+	        model.addAttribute("error", "사용자 등록 중 오류가 발생했습니다.");
+	        return view;
 		}
 		System.out.println(user);
 		return view;	
@@ -90,10 +104,10 @@ public class UserController {
 		model.addAttribute("User", user);
 		
 		if(user.getGrade() == "관리자") {
-			return "updateUserForAdmin";
+//			return "updateUserForAdmin";
 		}
 		
-		return "updateUser";
+		return "updateUserDetail";
 	}
 	
 	// 회원정보 수정(회원용)

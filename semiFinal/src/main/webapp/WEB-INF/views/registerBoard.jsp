@@ -12,29 +12,9 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
 </head>
 <body>
-
-<c:if test = "${true}">
 <div id = "wrap">
-	<!-- aside  -->
-	<aside id="aside">
-      <h1 class="logo"><a href="/main">Muti 게시판</a></h1>
-       <div class="login">
-        <form action="">
-            <input type="text" placeholder="아이디" class="in">
-            <input type="password" placeholder="비밀번호" class="in">
-            <input type="submit" id="btn" value="로그인"><br>
-        </form>
-        <a href="#">회원가입을 하시겠습니까?</a>
-     </div>
-      <nav class="side-bar">
-      	<ul>
-        	<li><a href="/main">홈</a></li>
-			<li><a href="#">공지게시판</a></li>
-			<li><a href="#">정보게시판</a></li>
-			<li><a href="#">자유게시판</a></li>
-	   	</ul>
-      </nav>
-    </aside>
+	<!-- aside -->
+    <%@ include file="aside.jsp" %>
     
     <!-- main  -->
 	<main id="main">
@@ -44,6 +24,7 @@
 		            <h3>게시판 글 작성</h3>
 		        </div>
 		    </div>
+		    <c:if test="${not empty sessionScope.userId}">
 			<form action="/board" method="POST">
 			    <div id="board-list">
 		        	<div class="container">
@@ -97,15 +78,20 @@
 			<div class="container">
 				<span style="font-size:12pt; float: left; margin-right:7px;"><input type="button" value="목록으로" class="Btn" onclick="location.href='/main'"></span>
 			</div>
+			</c:if>
+			<c:if test="${empty sessionScope.userId}">
+				<script>
+					alert("로그인을 하세요!");
+					history.back();
+				</script>
+			</c:if>
 	 	</section>
    </main>
-   <footer id="footer">
-		<div class="footer1">
-			copyright 2024
-		</div>
-	</footer>
+   
+   <!-- footer -->
+   <%@ include file="footer.jsp" %>
+   
 </div>	
-</c:if>
 <script type="text/javascript">
 	const inputBoardId = document.getElementById('boardId');
 	const boardIdMsg = document.getElementById('boardIdMsg');

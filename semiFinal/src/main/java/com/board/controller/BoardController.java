@@ -113,7 +113,7 @@ public class BoardController {
 		// test용 세션
 //		session.setAttribute("userId", "q1w2e3r4");
 //		System.out.println(session.getAttribute("userId"));
-		session.invalidate();
+//		session.invalidate();
 
 		PageResponseDTO pageResponse = new PageResponseDTO().builder()
 															.total(totalCount)

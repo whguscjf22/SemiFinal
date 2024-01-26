@@ -13,37 +13,19 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-<c:if test = "${true}">
 <div id = "wrap">
-	<!-- aside  -->
-	<aside id="aside">
-      <h1 class="logo"><a href="/main">Muti 게시판</a></h1>
-       <div class="login">
-        <form action="">
-            <input type="text" placeholder="아이디" class="in">
-            <input type="password" placeholder="비밀번호" class="in">
-            <input type="submit" id="btn" value="로그인"><br>
-        </form>
-        <a href="#">회원가입을 하시겠습니까?</a>
-     </div>
-      <nav class="side-bar">
-      	<ul>
-        	<li><a href="/main">홈</a></li>
-			<li><a href="#">공지게시판</a></li>
-			<li><a href="#">정보게시판</a></li>
-			<li><a href="#">자유게시판</a></li>
-	   	</ul>
-      </nav>
-    </aside>
+	<!-- aside -->
+    <%@ include file="aside.jsp" %>
     
     <!-- main  -->
 	<main id="main">
-			<section class="notice">
-			  <div class="page-title">
-			        <div class="container">
-			            <h3>게시판 상세정보</h3>
-			        </div>
-			    </div>
+		<section class="notice">
+		  <div class="page-title">
+		        <div class="container">
+		            <h3>게시판 상세정보</h3>
+		        </div>
+		    </div>
+		    <c:if test="${not empty sessionScope.userId}">
 				<form action="/modify/board/${board.boardId}" method="GET" name="detailForm" id="detailForm">
 				    <div id="board-list">
 			        	<div class="container">
@@ -79,7 +61,7 @@
 										    		<option value="${board.boardName}" 
 										    		<c:if test="${board.boardName eq 'freeBoard'}">selected</c:if>>자유게시판</option>	
 											  </select>
-
+		
 					                    </td>
 					                    <th scope="row" bgcolor="#F9F9F9">수정일</th>
 					                    <td>${board.modifiedDate}</td>
@@ -112,41 +94,47 @@
 					<span style="font-size:12pt; float: left; margin-right:7px;"><input type="button" value="목록으로" class="Btn" onclick="location.href='/main'"></span>
 					<span style="font-size:12pt; float: left;"><input type="button" value="삭제하기" class="Btn" onclick="deleteBoard()"></span>
 				</div>
-		 	</section>
+				
+	 			</section>
 		 	
-<!-- 댓글 리스트 -->
-<c:if test="${not empty commentList}">
-    <c:forEach var="comment" items="${commentList}" varStatus="status">
-        <div>
-            <p>작성자: ${comment.userId}, 작성일: <fmt:formatDate value="${comment.date}" pattern="yyyy-MM-dd HH:mm"/></p>
-            <p>${comment.commentContent}</p>
-            
-            <c:if test="${sessionScope.userId eq comment.userId}">
-            <!-- or userGrade eq 'gold' or comment.status eq 'ACTIVE' -->
-                <!-- 세션의 userId가 현재 댓글의 작성자와 같거나, userGrade가 'gold'인 경우에만 삭제 버튼을 활성화 -->
-                <button onclick="deleteComment(${comment.commentId})">삭제</button>
-            </c:if>
-        </div>
-    </c:forEach>
-</c:if>
-<!-- 댓글 입력창 -->
-<div style="display: flex; margin-top: 20px; margin-right: 30px;">
-    <form action="/comment" method="POST" id="commentForm">
-        <input type="hidden" name="boardId" value="${board.boardId}">
-        <input type="hidden" name="userId" value="${sessionScope.userId}">
-        <input type="hidden" name="pageNum" value="${pageInfo.pageNum}">
-        <textarea class="form-control" style="height: 100px;" name="commentContent" placeholder="댓글을 입력하세요"></textarea>
-        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">댓글 작성</button>
-    </form>
-</div>
-
-</c:if>
+				<!-- 댓글 리스트 -->
+				<c:if test="${not empty commentList}">
+				    <c:forEach var="comment" items="${commentList}" varStatus="status">
+				        <div>
+				            <p>작성자: ${comment.userId}, 작성일: <fmt:formatDate value="${comment.date}" pattern="yyyy-MM-dd HH:mm"/></p>
+				            <p>${comment.commentContent}</p>
+				            
+				            <c:if test="${sessionScope.userId eq comment.userId}">
+				            <!-- or userGrade eq 'gold' or comment.status eq 'ACTIVE' -->
+				                <!-- 세션의 userId가 현재 댓글의 작성자와 같거나, userGrade가 'gold'인 경우에만 삭제 버튼을 활성화 -->
+				                <button onclick="deleteComment(${comment.commentId})">삭제</button>
+				            </c:if>
+				        </div>
+				    </c:forEach>
+				</c:if>
+				<!-- 댓글 입력창 -->
+				<div style="display: flex; margin-top: 20px; margin-right: 30px;">
+				    <form action="/comment" method="POST" id="commentForm">
+				        <input type="hidden" name="boardId" value="${board.boardId}">
+				        <input type="hidden" name="userId" value="${sessionScope.userId}">
+				        <input type="hidden" name="pageNum" value="${pageInfo.pageNum}">
+				        <textarea class="form-control" style="height: 100px;" name="commentContent" placeholder="댓글을 입력하세요"></textarea>
+				        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">댓글 작성</button>
+				    </form>
+				</div>
+			</c:if>
+			<c:if test="${empty sessionScope.userId}">
+				<script>
+				alert("로그인을 하세요!");
+				history.back();
+				</script>
+			</c:if>
    </main>
-   <footer id="footer">
-		<div class="footer1">
-			copyright 2024
-		</div>
-	</footer>
+   
+   <!-- footer -->
+   <%@ include file="footer.jsp" %>
+   
+   
 </div>	
 <script type="text/javascript">
 	
