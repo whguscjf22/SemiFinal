@@ -48,7 +48,7 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
     </insert> -->
 	
 	<select id="getBoardFileByBoardId"
-			parameterType="long"
+			parameterType="_long"
 			resultMap="boardFile">
 		SELECT
 			file_id,
@@ -65,7 +65,7 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getBoardFileByFileId"
-			parameterType="long"
+			parameterType="_long"
 			resultMap="boardFile">
 		SELECT
 			file_id,
@@ -91,9 +91,41 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
  		<result property="deletedDate" column="deleted_date"/>
  	</resultMap>
  	
+ 	<!--기존 파일 삭제  -->
  	<delete id="deleteFileByFileId"
  			parameterType="long">
  		DELETE FROM board_file
  		WHERE file_id = #{fileId}
  	</delete>
+ 	
+ 	<!-- 스케줄러 파일 삭제 -->
+ 	<update id="updateFileDeletedDateByBoardId"
+ 			parameterType="_long">
+ 		UPDATE board_file
+		SET deleted_date = now()
+		WHERE board_id = #{boardId};
+ 	</update>
+ 	<delete id="deleteFileByBoardId"
+ 			parameterType="_long">
+ 		DELETE FROM board_file
+ 		WHERE file_id = #{fileId}
+ 	</delete>
+ 	
+ 	<select id="getBoardFileDeletedList"
+ 			resultMap="boardFile">
+ 		SELECT 
+			file_id,
+			file_name,
+			file_original_name,
+			file_path,
+			registered_date,
+			file_size,
+			board_id,
+			deleted_date
+ 		FROM board_file
+ 		WHERE board_id IS NULL
+ 	
+ 	</select>
+ 	
+ 	
 </mapper>

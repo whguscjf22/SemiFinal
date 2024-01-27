@@ -25,10 +25,10 @@ public class UserService {
 		return user;
 	}
 
-	public boolean joinUser(String userId, String userName,String password) {
+	public boolean joinUser(User newUser) {
 		boolean result = false;
 		
-		int res = userMapper.joinUser(userId, userName, password);
+		int res = userMapper.joinUser(newUser);
 		if (res != 0 ) {
 			result = true;
 		}else {

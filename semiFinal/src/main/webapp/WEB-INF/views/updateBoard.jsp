@@ -22,7 +22,6 @@
     
     <!-- main  -->
 	<main id="main">
-<<<<<<< HEAD
 		<section class="notice">
 		  <div class="page-title">
 	        <div class="container">
@@ -31,7 +30,8 @@
 		  </div>
 		  
 		    <c:if test="${not empty sessionScope.userId}">
-			<form action="/board/${boardId}" method="POST" enctype="multipart/form-data">
+			<form action="/board/${board.boardId}" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="_method" value="PUT">
 			    <div id="board-list">
 		        	<div class="container">
 					    <table class="board-table"> 
@@ -79,10 +79,17 @@
 				                <tr>
 				                    <th scope="row" bgcolor="#F9F9F9">첨부파일</th>
 				                    <td colspan="4">
+				                    	<c:if test="${not empty file}">
+					                    	<span id="board-file">
+					                        	<a href="http://localhost:8080/download/board/${file.fileId}">${file.fileOriginalName}</a>
+					                        	<button id="file-delete-btn">X</button>
+					                        </span>
+				                        </c:if>
+										<c:if test="${empty file}">
 				                    	<span id="board-file">
-				                        	<a href="http://localhost:8080/download/file/${file.fileId}">${file.fileOriginalName}</a>
-				                        	<button id="file-delete-btn">X</button>
+				                    		<input type="file" name="file">
 				                        </span>
+				                        </c:if>
 				                    </td>
 				                </tr>
 				                <tr>
@@ -121,23 +128,15 @@
    
    <!-- footer -->
    <%@ include file="footer.jsp" %>
+   
 </div>	
-
-
-<!-- action, method -->
-<%-- <form action="/board/${file.FileId}" method="POST" enctype="multipart/form-data">
-	<!--  PUT -->
-	<input type="hidden" name="_method" value="PUT">
-
-
-</form> --%>
 
 <script type="text/javascript">
 	let boardFile = document.getElementById('board-file');
 	let deleteFileBtn = document.getElementById('file-delete-btn');
 	deleteFileBtn.addEventListener('click', (e) => {
 		e.preventDefault();
-		axios.delete('http://localhost:8080/file' + ${file.fileId})
+		axios.delete('http://localhost:8080/file/' + ${file.fileId})
 				.then(response => response.data)
 				.then(data => {
 					if(data === '성공') {

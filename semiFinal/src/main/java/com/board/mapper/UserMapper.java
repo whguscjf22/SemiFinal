@@ -12,7 +12,7 @@ public interface UserMapper {
 
 	public User getUserByUserId(String userId);
 
-	public int joinUser(String userId, String userName, String password);
+	public int joinUser(User newUser);
 
 	public int updateUserByUserId(User user);
 

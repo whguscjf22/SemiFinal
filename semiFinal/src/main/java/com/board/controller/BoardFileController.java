@@ -64,7 +64,8 @@ public class BoardFileController {
 		
 		
 		try {
-			result = fileService.deleteFileByFileId(fileId);
+//			result = fileService.deleteFileByFileId(fileId); // 기존 삭제
+			result = fileService.updateFileDeletedDateByBoardId(fileId); // 삭제 유예
 			
 			if(result) {
 				return "성공";

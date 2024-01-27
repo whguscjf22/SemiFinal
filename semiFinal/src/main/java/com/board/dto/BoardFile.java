@@ -20,11 +20,11 @@ public class BoardFile {
 	private Timestamp registeredDate;
 	private Long fileSize;
 	private Long boardId;
-	private Timestamp deleteDate;
+	private Timestamp deletedDate;
 	
 	@Builder
 	public BoardFile(Long fileId, String fileName, String fileOriginalName, String filePath, Timestamp registeredDate,
-			Long fileSize, Long boardId, Timestamp deleteDate) {
+			Long fileSize, Long boardId, Timestamp deletedDate) {
 		super();
 		this.fileId = fileId;
 		this.fileName = fileName;
@@ -33,7 +33,7 @@ public class BoardFile {
 		this.registeredDate = registeredDate;
 		this.fileSize = fileSize;
 		this.boardId = boardId;
-		this.deleteDate = deleteDate;
+		this.deletedDate = deletedDate;
 	}
 	
 
