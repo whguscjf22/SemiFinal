@@ -138,13 +138,13 @@ public class BoardController {
 	@RequestMapping(value = "/board", method = RequestMethod.GET)
 	public String insertBoardForm(@RequestParam(value="boardName",required=false) String boardName, Model model) {
 		String view = "registerBoard";
-		
 		List<Board> boardList = null;
 		if(boardName != null) {
 			// 카테고리에 맞는 board 찾아와 List<Board>를  main.jsp 로 출력
 			try {
 				boardList = boardService.getBoardByBoardName(boardName);
 				model.addAttribute("boardList", boardList);
+				model.addAttribute("boardName", boardName);
 				view = "main";
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -240,9 +240,9 @@ public class BoardController {
 	// 
 	@RequestMapping(value = "/board/{boardId}", method = RequestMethod.DELETE)
 	public String deleteBoard(@PathVariable Long boardId) throws SQLException, Exception {
-		
 		String view = "error";
 		boolean result = false;
+		boolean fileDel = boardFileService.updateFileDeletedDateByBoardId(boardId);
 		boolean comResult = commentService.deleteCommentByBoardId(boardId);
 		result = boardService.deleteBoardByBoardId(boardId);
 		

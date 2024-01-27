@@ -2,6 +2,7 @@ package com.board.service;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.board.dto.Board;
 import com.board.dto.BoardFile;
 import com.board.mapper.BoardFileMapper;
 
@@ -89,5 +91,19 @@ public class BoardFileService {
 		return result;
 	}
 
+	public List<BoardFile> getBoardFileDeletedList() throws SQLException {
+		return boardFileMapper.getBoardFileDeletedList();
+	}
+
+	public boolean updateFileDeletedDateByBoardId(long boardId) throws SQLException {
+		boolean result = false;
+		int res = boardFileMapper.updateFileDeletedDateByBoardId(boardId);
+		if(res != 0) {
+			result = true;
+		}
+		return result;
+	}
+
+	
 
 }
