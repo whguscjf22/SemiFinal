@@ -91,8 +91,8 @@ public class BoardFileService {
 		return result;
 	}
 
-	public List<BoardFile> getBoardFileList() throws SQLException {
-		return boardFileMapper.getBoardFileList();
+	public List<BoardFile> getBoardFileDeletedList() throws SQLException {
+		return boardFileMapper.getBoardFileDeletedList();
 	}
 
 	public boolean updateFileDeletedDateByBoardId(long boardId) throws SQLException {
@@ -104,5 +104,6 @@ public class BoardFileService {
 		return result;
 	}
 
+	
 
 }

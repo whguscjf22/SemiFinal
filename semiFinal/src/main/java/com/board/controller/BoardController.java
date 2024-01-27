@@ -240,10 +240,9 @@ public class BoardController {
 	// 
 	@RequestMapping(value = "/board/{boardId}", method = RequestMethod.DELETE)
 	public String deleteBoard(@PathVariable Long boardId) throws SQLException, Exception {
-		boolean fileDel = boardFileService.updateFileDeletedDateByBoardId(boardId);
-		System.out.println(fileDel);
 		String view = "error";
 		boolean result = false;
+		boolean fileDel = boardFileService.updateFileDeletedDateByBoardId(boardId);
 		boolean comResult = commentService.deleteCommentByBoardId(boardId);
 		result = boardService.deleteBoardByBoardId(boardId);
 		

@@ -92,11 +92,11 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
  	</resultMap>
  	
  	<!--기존 파일 삭제  -->
-<!--  	<delete id="deleteFileByFileId"
+ 	<delete id="deleteFileByFileId"
  			parameterType="long">
  		DELETE FROM board_file
  		WHERE file_id = #{fileId}
- 	</delete> -->
+ 	</delete>
  	
  	<!-- 스케줄러 파일 삭제 -->
  	<update id="updateFileDeletedDateByBoardId"
@@ -110,5 +110,22 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
  		DELETE FROM board_file
  		WHERE file_id = #{fileId}
  	</delete>
+ 	
+ 	<select id="getBoardFileDeletedList"
+ 			resultMap="boardFile">
+ 		SELECT 
+			file_id,
+			file_name,
+			file_original_name,
+			file_path,
+			registered_date,
+			file_size,
+			board_id,
+			deleted_date
+ 		FROM board_file
+ 		WHERE board_id IS NULL
+ 	
+ 	</select>
+ 	
  	
 </mapper>

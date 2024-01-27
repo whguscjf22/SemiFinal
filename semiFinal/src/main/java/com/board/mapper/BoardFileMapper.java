@@ -16,9 +16,10 @@ public interface BoardFileMapper {
 
 	int deleteFileByFileId(long fileId) throws SQLException;
 
-	public List<BoardFile> getBoardFileList() throws SQLException;
+	public List<BoardFile> getBoardFileDeletedList() throws SQLException;
 
 	public int updateFileDeletedDateByBoardId(long boardId) throws SQLException;
+
 
 
 
