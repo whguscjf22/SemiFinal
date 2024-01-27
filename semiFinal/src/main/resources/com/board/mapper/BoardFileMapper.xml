@@ -65,7 +65,7 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getBoardFileByFileId"
-			parameterType="long"
+			parameterType="_long"
 			resultMap="boardFile">
 		SELECT
 			file_id,
