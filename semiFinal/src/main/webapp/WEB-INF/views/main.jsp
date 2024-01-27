@@ -25,7 +25,7 @@
 		        <div class="container">
 		            	<h3>${boardName }</h3>
 		            <c:if test="${empty boardName}">
-		            	<h3>빈게시판</h3>
+		            	<h3>Multi 게시판</h3>
 		            </c:if>
 		        </div>
 		  </div>

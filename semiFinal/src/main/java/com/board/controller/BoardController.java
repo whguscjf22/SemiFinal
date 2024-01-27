@@ -46,9 +46,11 @@ public class BoardController {
 //		IntStream.rangeClosed(1, 200)
 //					.forEach(i ->{
 //						Board board = Board.builder()
-//											.boardTitle("BoardTilte : " + i)
+//											.boardTitle("자유게시판")
 //											.boardContent("BoardContent : " + i)
 //											.boardName("BoardName : " + i)
+//											.userId("q1w2e3r4")
+//											.count("0")
 //											.build();
 //						boardService.insertNotice(board);
 //					});
