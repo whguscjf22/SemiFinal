@@ -18,6 +18,7 @@
 - 정보게시판
 - 게시판 글 페이징 기능
 - 회원 비밀번호 (글자수제한/특수문자 포함)
+- 파일 삭제시 스케줄러로 관리
 
 DB 구성
 board - board_id, board_title, board_content, created_date, modified_date, user_id, board_file
