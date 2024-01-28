@@ -18,15 +18,15 @@
         	<strong> 회원 등급 :${userGrade}</strong><br>
         	<br/><hr><br/>
         	<button type="button" class="logout" onClick="location.href='http://localhost:8080/logout'">로그아웃</button> <br/>
-	        <button type="button" class="userDetail" onClick="location.href='http://localhost:8080/user/${userId}'">회원정보</button>
+	        <button type="button" class="userDetail" onClick="location.href='http://localhost:8080/user'">회원정보</button>
 	    </c:if>     
        </div>
        <nav class="side-bar">
      	<ul>
 	       	<li><a href="/main">홈</a></li>
-			<li><a href="/board?boardName=noticeBoard">공지게시판</a></li>
-			<li><a href="/board?boardName=infoBoard">정보게시판</a></li>
-			<li><a href="/board?boardName=freeBoard">자유게시판</a></li>
+			<li><a href="/main?boardName=noticeBoard">공지게시판</a></li>
+			<li><a href="/main?boardName=infoBoard">정보게시판</a></li>
+			<li><a href="/main?boardName=freeBoard">자유게시판</a></li>
    		</ul>
      </nav>
 </aside>

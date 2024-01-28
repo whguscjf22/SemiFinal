@@ -1,6 +1,5 @@
 package com.board.schedulde;
 
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -20,7 +19,8 @@ public class Schedulde {
 
 	
 	// 실제 파일 시간비교해서 삭제
-//	@Scheduled(cron = "0/5 * * * * *") // 0 0 10 ? * * 매일 10시 작동
+//	@Scheduled(cron = "0 30 10 ? * *") // 0 30 10 ? * * 매일 10시 30분 작동
+//	@Scheduled(cron = "0/5 * * * * *")
 //	public void deleteFileySchedulde() throws Exception {
 //		boolean result = false;
 //		List<BoardFile> fileList = boardFileService.getBoardFileDeletedList();
@@ -34,6 +34,7 @@ public class Schedulde {
 //				long timeDifferenceInMillis = currentTime.getTime() - deleteDate.getTime();
 //				long resultTime = timeDifferenceInMillis / (1000 * 60); // 밀리초를 분으로 변환
 //				System.out.println(resultTime);
+//				
 //				// 삭제한지 300분이 넘은것 삭제
 //				if(resultTime > 90) {
 //					result = boardFileService.deleteFileByFileId(fileList.get(i).getFileId());
@@ -44,8 +45,8 @@ public class Schedulde {
 //			}
 //			
 //		}
-//		
-//        
-//        }
+//	}	
+        
+        
 	        
 }

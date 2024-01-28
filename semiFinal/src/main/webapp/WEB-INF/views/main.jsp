@@ -23,8 +23,8 @@
 		<section class="notice">
 		  <div class="page-title">
 		        <div class="container">
-		            	<h3>${boardName }</h3>
-		            <c:if test="${empty boardName}">
+		            	<h3>${pageInfo.pageRequest.boardName}</h3>
+		            <c:if test="${empty pageInfo.pageRequest.boardName}">
 		            	<h3>Multi 게시판</h3>
 		            </c:if>
 		        </div>
@@ -64,7 +64,7 @@
 									<p align="center">
 										<span style="font-size:12pt;">
 											<b>
-												<a href="/board?boardName=${board.boardName}">${board.boardName}</a>
+												<a href="/main?boardName=${board.boardName}">${board.boardName}</a>
 											</b>
 										</span>
 									</p>
@@ -120,19 +120,22 @@
 								<c:if test="${pageInfo.prev}">
 									<th class="page-item">
 										<a class="page-link" aria-label="Previous" 
-											href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Prev</a>
+											href="/main?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&boardName=${pageInfo.pageRequest.boardName}">Prev</a>
 									</th>
 								</c:if>
 								<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
 									<th class="page-item ${pageInfo.pageRequest.pageNum == num ? "active" : "" } ">
 										<a class="page-link" style="padding:10px;"
- 											href="/main?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">${num}</a>
+ 											href="/main?pageNum=${num}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}
+ 													&boardName=${pageInfo.pageRequest.boardName}">${num}</a>
 									</th>
 								</c:forEach>
 								<c:if test="${pageInfo.next}">
 									<th class="page-item next">
 										<a class="page-link" aria-label="next"
-											href="/main?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}&searchKeyword=${pageInfo.pageRequest.searchKeyword}">Next</a>
+											href="/main?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}
+													&searchKeyword=${pageInfo.pageRequest.searchKeyword}&boardName=${pageInfo.pageRequest.boardName}">Next</a>
 									</th>
 								</c:if>
 							</tr>
@@ -144,10 +147,18 @@
 		    <div id="board-search">
 		        <div class="container">
 		            <div class="search-window">
-		                <form action="">
+		                <form id="mainForm" action="/main" method="GET" onsubmit="checkKeyword()">
 		                    <div class="search-wrap">
 		                        <label for="search" class="blind">공지사항 내용 검색</label>
-		                        <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
+		                        <input 
+		                        	id="searchKeyword" 
+		                        	type="search" 
+		                        	name="searchKeyword" 
+		                        	placeholder="검색어를 입력해주세요." 
+		                        	value="${pageInfo.pageRequest.searchKeyword}">
+		                        <input name="pageNum" type="hidden" value="${pageInfo.pageRequest.pageNum}">
+								<input name="amount" type="hidden" value="${pageInfo.pageRequest.amount}">
+								<input name="boardName" type="hidden" value="${pageInfo.pageRequest.boardName}">
 		                        <button type="submit" class="btn btn-dark">검색</button>
 		                    </div>
 		                </form>
@@ -157,9 +168,48 @@
 		</section>
 	</main>
 	
+	
 	<!-- footer -->
     <%@ include file="footer.jsp" %>
-   
+<!-- 페이징 버튼 클릭시 => pageNum, amount, keyword -->
+<script type="text/javascript">
+	function checkKeyword(){
+		let mainForm = document.getElementById('mainForm');
+		// 검색 시 항상 pageNum을 1로 설정
+	    mainForm.pageNum.value = 1;
+		if(mainForm.searchKeyword.value === null || mainForm.searchKeyword.value === ''){
+			mainForm.searchKeyword.remove();
+		}
+		if(mainForm.boardName.value === null || mainForm.boardName.value === ''){
+            mainForm.boardName.remove();
+        }
+	}    
+	Array.from(document.getElementsByClassName('page-link'))
+		.forEach((pagingButton) => {
+			pagingButton.addEventListener('click', function(e) {
+				e.preventDefault();
+				let mainForm = document.getElementById('mainForm');
+				if (e.target.innerHTML.toLowerCase() === 'next') {
+	            mainForm.pageNum.value = ${pageInfo.endPage + 1}; // 'Next' 클릭 시
+		        } else if (e.target.innerHTML.toLowerCase() === 'prev') {
+		            mainForm.pageNum.value = ${pageInfo.startPage - 1}; // 'Prev' 클릭 시
+		        } else {
+	            mainForm.pageNum.value = e.target.innerHTML;
+
+	            if (mainForm.searchKeyword.value == '' || mainForm.searchKeyword.value == null) {
+	                mainForm.searchKeyword.remove();
+	         	   }
+	            if (mainForm.boardName.value === '' || mainForm.boardName.value === null) {
+                    mainForm.boardName.remove();
+                }
+	       		 }
+				
+				mainForm.action = '/main';
+				mainForm.method = 'GET';
+				mainForm.submit();
+			})
+	}) 
+</script>	
 </div>	
 </body>
 </html>

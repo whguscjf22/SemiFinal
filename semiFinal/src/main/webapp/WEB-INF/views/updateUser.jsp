@@ -26,9 +26,9 @@
 		        </div>
 		  </div>
 			<!-- action, method -->
-			<form action="/user/${userId}" method="POST">
+			<form action="/modify/user" method="POST">
 				<!-- PUT -->
-				<input type="hidden" name="_method" value="PUT">
+				<input type="hidden" name="_method">
 				<table align="center" cellpadding="5" cellspacing="1" width="600" border="1">
 				    <tr>
 				        <td width="1220" height="20" colspan="2" bgcolor="#333">
@@ -46,7 +46,7 @@
 				        <td width="450" height="20" align="center">
 				        	<b>
 				        		<span style="font-size:9pt;">
-				        			<input type="text" name="userId" size="30" value="${userId}" readonly disabled>
+				        			<input type="text" name="userId" size="30" value="${user.userId}" readonly disabled>
 				        		</span>
 				        	</b>
 				        </td>
@@ -58,7 +58,7 @@
 				        <td width="450" height="20" align="center">
 				        	<b>
 				        		<span style="font-size:9pt;">
-				        			<input type=text name="dname" size="30" value="${userName}">
+				        			<input type=text name="userName" size="30" value="${user.userName}">
 				        		</span>
 				        	</b>
 				        </td>
@@ -70,7 +70,7 @@
 				        <td width="450" height="20" align="center">
 				        	<b>
 				        		<span style="font-size:9pt;">
-				        			<input type=password name="password" size="30" value="${password}">
+				        			<input type=password name="password" size="30" value="${user.password}">
 				        		</span>
 				        	</b>
 				        </td>
@@ -82,7 +82,7 @@
 				        <td width="450" height="20" align="center">
 				        	<b>
 				        		<span style="font-size:9pt;">
-				        			<input type="text" name="Grade" size="30" value="${grade}" readonly disabled>
+				        			<input type="text" name="grade" size="30" value="${user.grade}" readonly disabled>
 				        		</span>
 				        	</b>
 				        </td>

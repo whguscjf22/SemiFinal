@@ -94,8 +94,8 @@ public class BoardController {
 	// paging
 	@GetMapping("/main")
 	public String searchWithPage(PageRequestDTO pageRequest,
-									Model model, String searchKeyword, HttpSession session) {
-		
+									Model model, HttpSession session) {
+		System.out.println(pageRequest);
 		List<Board> boardList = boardService.getNoticeBySearchWithPage(pageRequest);
 		int totalCount = boardService.getTotalCount(pageRequest);
 		
@@ -111,6 +111,8 @@ public class BoardController {
 															.build();
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pageInfo", pageResponse);
+		System.out.println(pageResponse);
+		System.out.println(boardList);
 		
 		return "main";
 		

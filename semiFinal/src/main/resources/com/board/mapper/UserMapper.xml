@@ -43,7 +43,7 @@
  	<update id="updateUserByUserId"
  			parameterType="com.board.dto.User">
  		UPDATE board_db.user
- 		SET userName = #{userName}, password = #{password}
+ 		SET user_name = #{userName}, password = #{password}
  		WHERE user_id = #{userId}
  	</update>
  	
