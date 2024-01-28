@@ -88,13 +88,15 @@
 				                </tr>
 				            </tbody>
 				        </table>
-						<span style="font-size:12pt; float: right;"><input type="submit" value="수정하기" class="Btn"></span>
+				        <c:if test="${sessionScope.userId eq board.userId or userGrade eq '관리자'}">
+							<span style="font-size:12pt; float: right;"><input type="submit" value="수정하기" class="Btn"></span>
+						</c:if>
 		        	 </div>
 		    	</div>
 	   		</form>
 			<div class="container" style="height:50px;">
 				<span style="font-size:12pt; float: left; margin-right:7px;"><input type="button" value="목록으로" class="Btn" onclick="location.href='/main'"></span>
-				<c:if test="${sessionScope.userId eq comment.userId or userGrade eq '관리자'}">
+				<c:if test="${sessionScope.userId eq board.userId or userGrade eq '관리자'}">
 					<span style="font-size:12pt; float: left;"><input type="button" value="삭제하기" class="Btn" onclick="deleteBoard()"></span>
 				</c:if>
 			</div>

@@ -37,10 +37,11 @@ public class UserController {
 		User user = null;
 		
 		user = userService.getUserByUserIdAndPassword(userId, password);
-		System.out.println(user);
+
 		if(user!=null) {
 			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("userGrade", user.getGrade());
+			System.out.println("session ID : " + user.getUserId());
 			view = "redirect:/main";
 			return view;
 		}
@@ -69,7 +70,7 @@ public class UserController {
 		User user = null;
 		String view = "error";
 		boolean result = false;
-		System.out.println(newUser);		
+
 		if(newUser.getUserId() == null || newUser.getUserId().isEmpty() || newUser.getPassword() == null) {
 			model.addAttribute("error", "아이디 / 비밀번호를 입력해주세요!");
 	        return view;
