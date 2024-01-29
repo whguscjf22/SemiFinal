@@ -35,26 +35,29 @@ public class BoardFileService {
 		if(file == null) {
 			throw new Exception("파일 전달 오류 발생");
 		}
-		
-		String filePath = "C:\\multi\\00.spring";
-		String fileOriginalName = file.getOriginalFilename();
-		UUID uuid = UUID.randomUUID();
-		String fileName = uuid.toString() + "_" + fileOriginalName;
-		Long fileSize = file.getSize();
-		
-		BoardFile boardFile = BoardFile.builder()
-										.fileOriginalName(fileOriginalName)
-										.fileName(fileName)
-										.fileSize(fileSize)
-										.filePath(filePath)
-										.boardId(boardId)
-										.build();
-						
-		int res = boardFileMapper.insertBoardFile(boardFile);
-		
-		if(res != 0) {
-			file.transferTo(new File(filePath + "\\" + fileName));
-			result = true;
+		if(file.getOriginalFilename().equals("")) {
+			return result;
+		} else {
+			String filePath = "C:\\multi\\00.spring";
+			String fileOriginalName = file.getOriginalFilename();
+			UUID uuid = UUID.randomUUID();
+			String fileName = uuid.toString() + "_" + fileOriginalName;
+			Long fileSize = file.getSize();
+			
+			BoardFile boardFile = BoardFile.builder()
+					.fileOriginalName(fileOriginalName)
+					.fileName(fileName)
+					.fileSize(fileSize)
+					.filePath(filePath)
+					.boardId(boardId)
+					.build();
+			
+			int res = boardFileMapper.insertBoardFile(boardFile);
+			
+			if(res != 0) {
+				file.transferTo(new File(filePath + "\\" + fileName));
+				result = true;
+			}
 		}
 		
 		return result;
@@ -96,6 +99,7 @@ public class BoardFileService {
 	}
 
 	public boolean updateFileDeletedDateByBoardId(long boardId) throws SQLException {
+		System.out.println(boardId + "연결확인");
 		boolean result = false;
 		int res = boardFileMapper.updateFileDeletedDateByBoardId(boardId);
 		if(res != 0) {

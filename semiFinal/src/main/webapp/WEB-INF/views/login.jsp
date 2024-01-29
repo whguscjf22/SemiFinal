@@ -114,7 +114,6 @@
 	<!-- footer -->
 	<%@ include file="footer.jsp" %>
 	 
->>>>>>> origin/feat/MH2
 </div>	
 </body>
 </html>

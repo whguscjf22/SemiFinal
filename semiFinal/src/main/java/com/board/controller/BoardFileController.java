@@ -59,15 +59,16 @@ public class BoardFileController {
 	@ResponseBody
 	@DeleteMapping(value = "/file/{fileId}")
 	public String deleteFileByFileId(@PathVariable long fileId) {
-		
+		System.out.println("파일삭제 " + fileId);
 		boolean result = false;
 		
 		
 		try {
-//			result = fileService.deleteFileByFileId(fileId); // 기존 삭제
-			result = fileService.updateFileDeletedDateByBoardId(fileId); // 삭제 유예
+			result = fileService.deleteFileByFileId(fileId); // 기존 삭제
+//			result = fileService.updateFileDeletedDateByBoardId(fileId); // 삭제 유예 > 오류남
 			
 			if(result) {
+				System.out.println(result);
 				return "성공";
 			}
 		} catch (Exception e) {

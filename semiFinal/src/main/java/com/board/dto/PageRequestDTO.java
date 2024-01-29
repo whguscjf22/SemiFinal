@@ -15,7 +15,7 @@ public class PageRequestDTO {
   // 검색 키워드
   private String searchKeyword;
   
-  private String searchValue;
+  private String boardName;
 
   public PageRequestDTO() {
     this(1, 10);
@@ -37,12 +37,12 @@ public PageRequestDTO(int pageNum, int amount) {
 //  }
 
 	@Builder
-	public PageRequestDTO(int pageNum, int amount, String searchKeyword, String searchValue) {
+	public PageRequestDTO(int pageNum, int amount, String searchKeyword, String boardName) {
 	super();
 	this.pageNum = pageNum;
 	this.amount = amount;
 	this.searchKeyword = searchKeyword;
-	this.searchValue = searchValue;
+	this.boardName = boardName;
 }
 
 

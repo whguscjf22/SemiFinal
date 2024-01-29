@@ -37,10 +37,11 @@ public class UserController {
 		User user = null;
 		
 		user = userService.getUserByUserIdAndPassword(userId, password);
-		System.out.println(user);
+
 		if(user!=null) {
 			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("userGrade", user.getGrade());
+			System.out.println("session ID : " + user.getUserId());
 			view = "redirect:/main";
 			return view;
 		}
@@ -69,7 +70,7 @@ public class UserController {
 		User user = null;
 		String view = "error";
 		boolean result = false;
-		System.out.println(newUser);		
+
 		if(newUser.getUserId() == null || newUser.getUserId().isEmpty() || newUser.getPassword() == null) {
 			model.addAttribute("error", "아이디 / 비밀번호를 입력해주세요!");
 	        return view;
@@ -93,27 +94,38 @@ public class UserController {
 		}
 		return view;	
 	}
-	
-	
-	// 회원정보 수정폼
-	@RequestMapping(value = "/modify/user/{userId}", method = RequestMethod.GET)
-	public String updateUserForm(@PathVariable String userId, Model model) {
+	// 회원정보 상세
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public String userDetail( Model model, HttpSession session) {
+		String userId = (String) session.getAttribute("userId");
 		User user = userService.getUserByUserId(userId);
-		model.addAttribute("User", user);
+		model.addAttribute("user", user);
 		
-		if(user.getGrade() == "관리자") {
+		return "UserDetail";
+	}
+	
+	// 회원정보 수정으로 이동
+	@RequestMapping(value = "/user", method = RequestMethod.POST)
+	public String updateUserForm( Model model, HttpSession session) {
+		String userId = (String) session.getAttribute("userId");
+		User user = userService.getUserByUserId(userId);
+		model.addAttribute("user", user);
+//		System.out.println(user);
+//		if(user.getGrade() == "관리자") {
 //			return "updateUserForAdmin";
-		}
+//		}
 		
 		return "updateUser";
 	}
 	
 	// 회원정보 수정(회원용)
-	@RequestMapping(value = "/User/{userId}", method = RequestMethod.POST)
-	public String updateUser(@PathVariable String userId, @ModelAttribute User newUser) {
+	@RequestMapping(value = "/modify/user", method = RequestMethod.POST)
+	public String updateUser(HttpSession session, @ModelAttribute User newUser) {
 		String view = "error";
-		User user = null;
+		String userId = (String) session.getAttribute("userId");
+		User user = userService.getUserByUserId(userId);
 		boolean result = false;
+		System.out.println(newUser + "회원용");
 		
 		try {
 			user = userService.getUserByUserId(userId);
@@ -124,7 +136,7 @@ public class UserController {
 			result = userService.updateUserByUserId(user);
 			
 			if(result) {
-				view = "redirect:/user/" + userId;
+				view = "redirect:/user";
 				return view;
 			}
 		} catch (Exception e) {

@@ -46,9 +46,11 @@ public class BoardController {
 //		IntStream.rangeClosed(1, 200)
 //					.forEach(i ->{
 //						Board board = Board.builder()
-//											.boardTitle("BoardTilte : " + i)
+//											.boardTitle("자유게시판")
 //											.boardContent("BoardContent : " + i)
 //											.boardName("BoardName : " + i)
+//											.userId("q1w2e3r4")
+//											.count("0")
 //											.build();
 //						boardService.insertNotice(board);
 //					});
@@ -92,16 +94,11 @@ public class BoardController {
 	// paging
 	@GetMapping("/main")
 	public String searchWithPage(PageRequestDTO pageRequest,
-									Model model, String searchKeyword, HttpSession session) {
-		
+									Model model, HttpSession session) {
+		System.out.println(pageRequest);
 		List<Board> boardList = boardService.getNoticeBySearchWithPage(pageRequest);
 		int totalCount = boardService.getTotalCount(pageRequest);
 		
-		// test용 세션
-//		session.setAttribute("userId", "q1w2e3r4");
-//		System.out.println(session.getAttribute("userId"));
-
-//		session.invalidate();
 		PageResponseDTO pageResponse = new PageResponseDTO().builder()
 															.total(totalCount)
 															.pageAmount(pageRequest.getAmount())
@@ -109,6 +106,8 @@ public class BoardController {
 															.build();
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pageInfo", pageResponse);
+		System.out.println(pageResponse);
+		System.out.println(boardList);
 		
 		return "main";
 		
@@ -162,18 +161,12 @@ public class BoardController {
 		String view = "error";
 		boolean fileResult = false;
 		boolean boardResult = false;
-		System.out.println(newBoard);
-		System.out.println(file.getOriginalFilename());
 		
 		try {
 			boardResult = boardService.insertBoard(newBoard);
-			System.out.println(newBoard.getBoardId());
+
 			if(boardResult) {
 				if(file != null) {
-					System.out.println(boardResult);
-//					BoardFile newFile = new BoardFile();
-//					newBoard.setBoardId(1L);
-//					System.out.println(boardService.getBoardByBoardId(newBoard.getBoardId()));
 					fileResult = boardFileService.insertBoardFile(file, newBoard.getBoardId());
 				view = "redirect:/main";
 				return view;
@@ -208,9 +201,8 @@ public class BoardController {
 	public String updateBoard(@PathVariable Long boardId,
 								@ModelAttribute Board newBoard, MultipartFile file, PageRequestDTO pageRequest) {
 		String view = "error";
-		System.out.println("파일 확인중" + file);
-		// 
 		Board board = null;
+
 		boolean result = false;
 		try {
 			board = boardService.getBoardByBoardId(boardId);
@@ -252,12 +244,6 @@ public class BoardController {
 		}
 		return view;
 	}	
-	
-	@RequestMapping("/boardtest")
-	public String test() {
-		
-		return "boardtest";
-	}
 	
 		
 }

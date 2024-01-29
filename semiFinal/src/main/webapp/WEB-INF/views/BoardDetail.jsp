@@ -88,13 +88,17 @@
 				                </tr>
 				            </tbody>
 				        </table>
-						<span style="font-size:12pt; float: right;"><input type="submit" value="수정하기" class="Btn"></span>
+				        <c:if test="${sessionScope.userId eq board.userId or userGrade eq '관리자'}">
+							<span style="font-size:12pt; float: right;"><input type="submit" value="수정하기" class="Btn"></span>
+						</c:if>
 		        	 </div>
 		    	</div>
 	   		</form>
 			<div class="container" style="height:50px;">
 				<span style="font-size:12pt; float: left; margin-right:7px;"><input type="button" value="목록으로" class="Btn" onclick="location.href='/main'"></span>
-				<span style="font-size:12pt; float: left;"><input type="button" value="삭제하기" class="Btn" onclick="deleteBoard()"></span>
+				<c:if test="${sessionScope.userId eq board.userId or userGrade eq '관리자'}">
+					<span style="font-size:12pt; float: left;"><input type="button" value="삭제하기" class="Btn" onclick="deleteBoard()"></span>
+				</c:if>
 			</div>
 			
 			<!-- 댓글 리스트 -->
@@ -106,7 +110,7 @@
 					            <p>작성자: ${comment.userId}, 작성일: <fmt:formatDate value="${comment.date}" pattern="yyyy-MM-dd HH:mm"/></p>
 					            <p style="margin-top:20px; ">${comment.commentContent}</p>
 					            <hr>
-					            <c:if test="${sessionScope.userId eq comment.userId}">
+					            <c:if test="${sessionScope.userId eq comment.userId or userGrade eq '관리자'}">
 					            <!-- or userGrade eq 'gold' or comment.status eq 'ACTIVE' -->
 					                <!-- 세션의 userId가 현재 댓글의 작성자와 같거나, userGrade가 'gold'인 경우에만 삭제 버튼을 활성화 -->
 					                <button class="Ctn" style="float:right;" onclick="deleteComment(${comment.commentId})">삭제</button>

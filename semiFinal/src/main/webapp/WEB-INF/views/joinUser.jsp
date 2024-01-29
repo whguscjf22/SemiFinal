@@ -56,7 +56,7 @@
 		  </div>
 		  
 			<!-- action, method -->
-			<form action="/login" method="POST">
+			<form action="/joinUser" method="POST">
 			<div id="board-list">
 		        <div class="container" style="width:600px;">
 		        	<table class="board-table">
