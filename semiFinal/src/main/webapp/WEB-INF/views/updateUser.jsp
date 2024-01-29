@@ -27,14 +27,16 @@
 		  </div>
 			<!-- action, method -->
 			<form action="/modify/user" method="POST">
+			<div id="board-list">
+		        <div class="container">
 				<!-- PUT -->
 				<input type="hidden" name="_method">
-				<table align="center" cellpadding="5" cellspacing="1" width="600" border="1">
+				<table class="board-table"  align="center" cellpadding="5" cellspacing="1" width="600" border="1">
 				    <tr>
 				        <td width="1220" height="20" colspan="2" bgcolor="#333">
 				            <p align="center">
 				            	<font color="white" size="3">
-				            		<b>회원 정보 업데이트</b>
+				            		<b style="color:white;">회원 정보 업데이트</b>
 				            	</font>
 				            </p>
 				        </td>
@@ -95,20 +97,26 @@
 				        <td width="450" height="20" align="center">
 				        	<b>
 				        		<span style="font-size:9pt;">
-									<input type="submit" value="회원수정">
+									<input type="submit" class="Ctn" value="회원수정">
 									&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="reset" value="다시작성">
+									<input type="reset" class="Ctn" value="다시작성">
 								</span>
 							</b>
 						</td>
 				    </tr>
 				</table>
+				</div>
+				</div>
 			</form>
-<hr>
-<div align=center>
-	<span style="font-size:12pt;"><input type="button" value="메인으로" onclick="location.href='/main'"></span>
-</div>
-   <!-- footer -->
-   <%@ include file="footer.jsp" %>
+		
+		<div align=center>
+			<span style="font-size:12pt;"><input type="button" class="Ctn" value="메인으로" onclick="location.href='/main'"></span>
+		</div>
+  	</section>
+	</main>
+	
+	<!-- footer -->
+ 	<%@ include file="footer.jsp" %>
+</div>	
 </body>
 </html>
