@@ -45,6 +45,7 @@ PUBLIC "//mybatis.org/DTD Mapper 3.0//EN"
 	            AND board_title LIKE CONCAT ('%', #{searchKeyword}, '%') AND board_name = #{boardName}
 	        </if>
 	    </where>
+	    ORDER BY board_id DESC
 		LIMIT #{start}, #{amount}
 	</select>
 	
