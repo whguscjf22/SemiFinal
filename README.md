@@ -1,4 +1,4 @@
-# SemiFinal
+# Notice Board
 
 - 공통 주제 : 게시판
 - * 글 CRUD
